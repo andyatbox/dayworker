@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { PlayIcon, CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
@@ -18,6 +18,26 @@ const FILM_ID = "6a8b4d8ccad008e012bd14d1";
  */
 export default function Hero() {
   const [open, setOpen] = useState(false);
+  const player = useRef<HTMLIFrameElement>(null);
+
+  /**
+   * Gumlet forces mute whenever autoplay is on, so the film would otherwise
+   * start silent. Once it's rolling we unmute over player.js postMessage —
+   * the click that opened the overlay is the user activation the browser
+   * requires. Fired a few times because the player only accepts commands
+   * after it has finished booting, which is a little after iframe load.
+   */
+  const unmute = useCallback(() => {
+    const w = player.current?.contentWindow;
+    if (!w) return;
+    const send = (method: string, value?: unknown) =>
+      w.postMessage(
+        JSON.stringify({ context: "player.js", version: "0.0.11", method, value }),
+        "*"
+      );
+    send("unmute");
+    send("setVolume", 100);
+  }, []);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -100,12 +120,20 @@ export default function Hero() {
             style={{ width: "min(100vw, calc(100svh * 16 / 9))" }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* captions=false and caption_language=off both switch the burnt-in
+                English track to `disabled`; sent together so the player keeps
+                honouring one if the other is ever dropped. */}
             <iframe
+              ref={player}
               title="Dayworker video"
-              src={`https://play.gumlet.io/embed/${FILM_ID}?autoplay=true&loop=false&disable_player_controls=false`}
+              src={`https://play.gumlet.io/embed/${FILM_ID}?autoplay=true&loop=false&disable_player_controls=false&captions=false&caption_language=off`}
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
               referrerPolicy="origin"
               className="h-full w-full border-none"
+              onLoad={() => {
+                unmute();
+                [250, 700, 1500].forEach((t) => setTimeout(unmute, t));
+              }}
             />
           </div>
           <button
