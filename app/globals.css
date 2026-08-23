@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-yellow: #fbed23;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-noe), Georgia, "Times New Roman", serif;
+  --animate-marquee: marquee 70s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+}
+
+@layer base {
+  * {
+    border-radius: 0 !important;
+  }
+
+  /* Deliberate exception to the reset above. It must live in this same layer:
+     for `!important` declarations the cascade-layer order is reversed, so an
+     unlayered rule would lose to the layered `*`. Same layer, so the higher
+     specificity of `.pill` decides instead. */
+  .pill {
+    border-radius: 9999px !important;
+  }
+
+  /* Slideshow column wipe — alternate columns drop in from opposite edges.
+     Defined outside @theme on purpose: Tailwind only emits keyframes from
+     there when an --animate-* token references them, and these are driven by
+     per-column inline styles instead. */
+  @keyframes slice-down {
+    from {
+      transform: translateY(-101%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slice-up {
+    from {
+      transform: translateY(101%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  html {
+    background: #ffffff;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #fbed23;
+    color: #000000;
+  }
+
+  strong,
+  b {
+    font-weight: 800;
+  }
+}
+
+/* Big display headline — Noe Display, blocked highlight variant for use over imagery */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+/* White block with a hard black keyline. `clone` gives every wrapped
+   fragment its own complete box, so the stroke survives text wrapping.
+   Extra top padding optically centers the display face in its box. */
+.blocked {
+  display: inline;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #000000;
+  border: 3px solid #000000;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.24em 0.3em 0.06em;
+}
+
+/* Leading tuned so each stroked line box overlaps the next by exactly one
+   border width — the stack reads as one connected assembly with uniform 3px
+   rules. The margin does the same for the mark sitting on top of it.
+   (1.3em = the font's content area plus .blocked's vertical padding.) */
+.tagline {
+  line-height: calc(1.3em + 3px);
+  margin-top: calc(0.09em - 1.5px);
+}

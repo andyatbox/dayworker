@@ -1,0 +1,125 @@
+import Reveal from "./Reveal";
+import ParallaxImage from "./ParallaxImage";
+
+/* h-full so a cell fills its stretched grid row — otherwise a short cell in a
+   row with a taller sibling leaves the black grid background showing below it. */
+const CELL = "flex h-full min-h-[320px] flex-col justify-between gap-10 p-10 md:p-14";
+
+function FeatureCell({
+  n,
+  title,
+  body,
+}: {
+  n: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div
+      className={`${CELL} bg-white transition-colors duration-100 ease-linear hover:bg-yellow`}
+    >
+      <span className="text-xs font-extrabold uppercase tracking-[0.3em]">{n}</span>
+      <div>
+        <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-[0.04em] md:text-3xl">
+          {title}
+        </h3>
+        <p className="mt-5 max-w-[34ch] leading-relaxed">{body}</p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The features board: a hard black grid, cells sliding in from all four
+ * directions, image cells parallaxing inside their frames.
+ */
+export default function Features() {
+  return (
+    <section id="features" className="bg-white">
+      <div className="px-5 pb-16 pt-28 md:px-10 md:pb-24 md:pt-44">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <Reveal dir="right" className="lg:col-span-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.3em]">
+              Dayworker features
+            </p>
+          </Reveal>
+          <Reveal dir="up" className="lg:col-span-9">
+            <h2 className="display text-[clamp(3rem,7.5vw,7.5rem)]">
+              Built for the job.
+            </h2>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="border-y-[3px] border-black bg-black">
+        <div className="grid grid-cols-1 gap-[3px] md:grid-cols-2 lg:grid-cols-3">
+          <Reveal dir="right">
+            <FeatureCell
+              n="Workers"
+              title="Job search"
+              body="Find work near you, filtered by location and the qualifications you hold."
+            />
+          </Reveal>
+          <Reveal dir="down" delay={60}>
+            <ParallaxImage
+              src="/images/carpenter-saw.jpg"
+              alt="Carpenter cutting lumber on site"
+              className="h-full min-h-[320px]"
+            />
+          </Reveal>
+          <Reveal dir="left" delay={120}>
+            <FeatureCell
+              n="Contractors"
+              title="Worker search"
+              body="Find skilled workers fast, by trade, skills, and qualifications."
+            />
+          </Reveal>
+
+          <Reveal dir="right" delay={60}>
+            <ParallaxImage
+              src="/images/cleaning.jpg"
+              alt="Professional cleaner at work"
+              className="h-full min-h-[320px]"
+            />
+          </Reveal>
+          <Reveal dir="up">
+            <FeatureCell
+              n="Networking"
+              title="Dashboard"
+              body="Your jobs, applications, and contacts — one board, always current."
+            />
+          </Reveal>
+          <Reveal dir="left" delay={120}>
+            <ParallaxImage
+              src="/images/paving.jpg"
+              alt="Crew laying paving stones"
+              className="h-full min-h-[320px]"
+            />
+          </Reveal>
+
+          <Reveal dir="right">
+            <FeatureCell
+              n="Workers"
+              title="Achievement badges"
+              body="Earn badges as you work and boost your profile where it counts."
+            />
+          </Reveal>
+          <Reveal dir="up" delay={60}>
+            <ParallaxImage
+              src="/images/chopper.jpg"
+              alt="Worker splitting timber"
+              className="h-full min-h-[320px]"
+            />
+          </Reveal>
+          <Reveal dir="left" delay={120}>
+            <FeatureCell
+              n="Networking"
+              title="Live-translated messenger"
+              body="Message in your language; they read it in theirs. Language is never a barrier on the job."
+            />
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
