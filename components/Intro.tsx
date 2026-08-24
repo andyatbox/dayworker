@@ -14,11 +14,11 @@ export default function Intro() {
         <div className="lg:col-span-9">
           <Reveal dir="up">
             <p className="max-w-[26ch] text-2xl font-extrabold leading-[1.2] md:text-4xl xl:text-5xl">
-              Dayworker is a professional network, built to connect contractors
-              with skilled on-demand workers and revitalize the workforce.
-              We&rsquo;re not a recruiter or pay-per-hire job board.{" "}
+              Our technology connects contractors with skilled on-demand workers
+              &ndash; making labor shortage a thing of the past. Dayworker is not
+              a recruiter or pay-per-hire job board.{" "}
               <span className="bg-yellow px-2 [-webkit-box-decoration-break:clone] [box-decoration-break:clone]">
-                No middlemen.
+                There&rsquo;s no middlemen.
               </span>{" "}
               <span className="bg-yellow px-2 [-webkit-box-decoration-break:clone] [box-decoration-break:clone]">
                 No hiring fees.

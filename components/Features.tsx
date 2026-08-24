@@ -44,9 +44,14 @@ export default function Features() {
             </p>
           </Reveal>
           <Reveal dir="up" className="lg:col-span-9">
-            <h2 className="display text-[clamp(3rem,7.5vw,7.5rem)]">
-              Built for the job.
+            <h2 className="display text-[clamp(2.6rem,6.2vw,6rem)]">
+              Finally, tech for{" "}
+              <span className="whitespace-nowrap">blue-collar</span> work.
             </h2>
+            <p className="mt-10 max-w-[46ch] text-lg leading-relaxed md:text-xl">
+              Available on desktop and Apple and Android mobile apps. Key
+              features include&hellip;
+            </p>
           </Reveal>
         </div>
       </div>
