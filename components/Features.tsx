@@ -16,9 +16,12 @@ function FeatureCell({
 }) {
   return (
     <div
-      className={`${CELL} bg-white transition-colors duration-100 ease-linear hover:bg-yellow`}
+      className={`group ${CELL} bg-white transition-colors duration-100 ease-linear hover:bg-yellow`}
     >
-      <span className="text-xs font-extrabold uppercase tracking-[0.3em]">{n}</span>
+      {/* Flips to white on hover, since the cell itself turns yellow. */}
+      <span className="w-fit bg-yellow px-2 py-1 text-xs font-extrabold uppercase tracking-[0.3em] transition-colors duration-100 ease-linear group-hover:bg-white">
+        {n}
+      </span>
       <div>
         <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-[0.04em] md:text-3xl">
           {title}
@@ -40,7 +43,7 @@ export default function Features() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <Reveal dir="right" className="lg:col-span-3">
             <p className="text-xs font-extrabold uppercase tracking-[0.3em]">
-              Dayworker features
+              <span className="bg-yellow px-2 py-1">Dayworker features</span>
             </p>
           </Reveal>
           <Reveal dir="up" className="lg:col-span-9">

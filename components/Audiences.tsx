@@ -21,21 +21,26 @@ const H2 = "display text-[clamp(2.4rem,5.2vw,5rem)]";
 /** Workers — white ground, image left, copy right. */
 export function Workers() {
   return (
-    <section id="workers" className="bg-white px-5 py-28 md:px-10 md:py-44">
+    <section
+      id="workers"
+      className="bg-black px-5 py-28 text-white md:px-10 md:py-44"
+    >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-y-20">
         <Reveal dir="right" className="lg:col-span-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.3em]">
+          <p className="text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">
             For the workers —
           </p>
         </Reveal>
         <Reveal dir="up" className="lg:col-span-9">
-          <h2 className={H2}>Showcase your skills and boost job frequency.</h2>
+          <h2 className={`${H2} text-yellow`}>
+            Showcase your skills and boost job frequency.
+          </h2>
         </Reveal>
 
         <Reveal dir="right" className="lg:col-span-7">
           <ParallaxSlideshow
             images={WORKER_SHOTS}
-            className="aspect-[16/10] border-[3px] border-black"
+            className="aspect-[16/10] border-[3px] border-yellow"
           />
         </Reveal>
 
@@ -49,7 +54,7 @@ export function Workers() {
             </p>
           </Reveal>
           <Reveal dir="up" delay={220}>
-            <Btn href="#signup" outlined big>
+            <Btn href="#signup" big>
               Create your profile <ArrowIcon />
             </Btn>
           </Reveal>
@@ -62,7 +67,12 @@ export function Workers() {
 /** Contractors — inverted: black ground, copy left, image right. */
 export function Contractors() {
   return (
-    <section id="contractors" className="bg-black px-5 py-28 text-white md:px-10 md:py-44">
+    // Keyline because Workers above is now black too — without it the two
+    // sections read as one continuous field rather than two regions.
+    <section
+      id="contractors"
+      className="border-t-[3px] border-yellow bg-black px-5 py-28 text-white md:px-10 md:py-44"
+    >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-y-20">
         <Reveal dir="right" className="lg:col-span-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">

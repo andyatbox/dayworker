@@ -3,11 +3,11 @@ import Reveal from "./Reveal";
 /** Big opening statement — pure typography, heavy air. */
 export default function Intro() {
   return (
-    <section className="bg-white px-5 py-28 md:px-10 md:py-44">
+    <section id="about" className="bg-white px-5 py-28 md:px-10 md:py-44">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <Reveal dir="right" className="lg:col-span-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.3em]">
-            Dayworker revolution
+            <span className="bg-yellow px-2 py-1">Dayworker revolution</span>
           </p>
         </Reveal>
 

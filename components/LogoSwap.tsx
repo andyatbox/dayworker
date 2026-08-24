@@ -42,8 +42,15 @@ export default function LogoSwap() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        // Matches the header's own top inset (pt-5 / md:pt-8).
-        const restTop = window.innerWidth >= 768 ? 32 : 20;
+        // Clamp level with the header's chrome row, read from the DOM so the
+        // mark follows it when the jump-to strip above hides itself on narrow
+        // screens. Falls back to the header's own top inset.
+        const row = document.querySelector("[data-chrome-row]");
+        const restTop = row
+          ? row.getBoundingClientRect().top
+          : window.innerWidth >= 768
+            ? 32
+            : 20;
         b.style.top = `${Math.max(restTop, r.top)}px`;
         b.style.left = `${r.left}px`;
       }

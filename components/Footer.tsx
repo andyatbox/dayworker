@@ -1,50 +1,55 @@
-/* eslint-disable @next/next/no-img-element */
+import LegalLinks from "./LegalLinks";
+import { InstagramIcon, FacebookIcon, LinkedInIcon } from "./Icons";
 
-const LINKS = [
-  ["Features", "#features"],
-  ["Workers", "#workers"],
-  ["Contractors", "#contractors"],
-  ["Sign up", "#signup"],
+const SOCIALS = [
+  { label: "Instagram", href: "https://www.instagram.com/dayworker.co", Icon: InstagramIcon },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=100092431745290",
+    Icon: FacebookIcon,
+  },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/dayworker-inc", Icon: LinkedInIcon },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-black px-5 pb-14 pt-28 text-white md:px-10 md:pt-40">
-      <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <img src="/logos/DW-Logo.svg" alt="" className="h-16 w-16" />
-          <img
-            src="/logos/DW-White-Logotype.svg"
-            alt="DAYWORKER"
-            className="mt-10 h-8 md:h-12"
-          />
-          <p className="mt-8 max-w-[40ch] text-lg leading-relaxed">
-            The blue-collar pro network. Contractors and skilled workers,
-            connected on demand.
-          </p>
-        </div>
-
-        <nav className="flex flex-col items-start gap-4 lg:col-span-5 lg:items-end">
-          {LINKS.map(([label, href]) => (
+    <footer className="bg-black px-5 pb-14 pt-28 text-white md:px-10 md:pt-36">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-5 text-lg md:text-xl">
+        <span>Join us on the socials at</span>
+        <span className="flex items-center gap-3">
+          {SOCIALS.map(({ label, href, Icon }) => (
             <a
-              key={href}
+              key={label}
               href={href}
-              className="bg-black px-2 py-1 text-2xl font-extrabold uppercase tracking-[0.08em] text-white transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black md:text-3xl"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="flex h-11 w-11 items-center justify-center border-[3px] border-yellow text-yellow transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
             >
-              {label}
+              <Icon className="h-5 w-5" />
             </a>
           ))}
-        </nav>
+        </span>
+        <span className="text-yellow">|</span>
+        <span>
+          contact us at{" "}
+          <a
+            href="mailto:info@dayworker.co"
+            className="font-extrabold underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
+          >
+            info@dayworker.co
+          </a>
+        </span>
       </div>
 
-      <div className="mt-24 border-t-[3px] border-yellow pt-8">
+      <div className="mt-20 border-t-[3px] border-yellow pt-8">
         <p className="max-w-[70ch] text-sm leading-relaxed">
           † After our introductory period, job postings require a small monthly
           membership fee.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-xs font-extrabold uppercase tracking-[0.3em]">
-          <span>© 2026 Dayworker</span>
-          <span className="bg-yellow px-2 py-1 text-black">dayworker.co</span>
+        <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-3 text-xs font-extrabold uppercase tracking-[0.3em]">
+          <span>© 2026 Dayworker, Inc. All Rights Reserved.</span>
+          <LegalLinks />
         </div>
       </div>
     </footer>
