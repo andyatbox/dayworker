@@ -14,7 +14,7 @@ const BOX =
  */
 export default function Header() {
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-5 pt-5 md:px-10 md:pt-8">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-5 pt-3 md:px-10">
       <TopNav />
 
       <div data-chrome-row className="mt-3 flex flex-col items-end">

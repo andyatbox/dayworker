@@ -10,7 +10,7 @@ export default function AppCTA() {
       <div className="grid grid-cols-1 lg:grid-cols-12">
         <div className="flex flex-col justify-center gap-12 px-5 py-28 md:px-10 lg:col-span-7 lg:py-44">
           <Reveal dir="right">
-            <p className="text-xs font-extrabold uppercase tracking-[0.3em]">
+            <p className="mt-[38px] text-xs font-extrabold uppercase tracking-[0.3em]">
               Let&rsquo;s get to work
             </p>
           </Reveal>
