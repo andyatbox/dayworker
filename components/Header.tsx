@@ -7,17 +7,16 @@ const BOX =
   "pointer-events-auto flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md";
 
 /**
- * Fixed chrome: the jump-to strip spans the content region, with the app and
- * account boxes stacked beneath it on the right. The mark lives in the hero and
- * clamps up to meet the account row on scroll — LogoSwap measures the row
- * tagged data-chrome-row, so it stays aligned when the nav hides itself.
+ * Fixed chrome, all right-aligned: the jump-to strip, then the app and account
+ * boxes stacked beneath it. The mark lives in the hero and pins top-left on
+ * scroll, level with the strip — see LogoSwap.
  */
 export default function Header() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-5 pt-3 md:px-10">
       <TopNav />
 
-      <div data-chrome-row className="mt-3 flex flex-col items-end">
+      <div className="mt-3 flex flex-col items-end">
         <div className={`${BOX} h-[79px]`}>
           <Btn href="/app">
             <AppleIcon />

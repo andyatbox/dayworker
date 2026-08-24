@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 const NARROW = 102; // round mark (64) + 16px each side + strokes
 const WIDE = 252; // logotype (~192) + 27px each side + strokes
 const BOX_H = 95;
+/** Matches the header's top inset, so the mark pins level with the nav strip. */
+const REST_TOP = 12;
 const HOLD_MS = 6000;
 
 export default function LogoSwap() {
@@ -42,16 +44,8 @@ export default function LogoSwap() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        // Clamp level with the header's chrome row, read from the DOM so the
-        // mark follows it when the jump-to strip above hides itself on narrow
-        // screens. Falls back to the header's own top inset.
-        const row = document.querySelector("[data-chrome-row]");
-        const restTop = row
-          ? row.getBoundingClientRect().top
-          : window.innerWidth >= 768
-            ? 32
-            : 20;
-        b.style.top = `${Math.max(restTop, r.top)}px`;
+        // Pins level with the jump-to strip, at the header's own top inset.
+        b.style.top = `${Math.max(REST_TOP, r.top)}px`;
         b.style.left = `${r.left}px`;
       }
       raf = requestAnimationFrame(tick);

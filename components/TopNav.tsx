@@ -52,12 +52,12 @@ export default function TopNav() {
     <div ref={slot} className="w-full">
       <nav
         aria-label="Section navigation"
-        className="pointer-events-auto border-[3px] border-black bg-white/70 backdrop-blur-md"
+        className="pointer-events-auto ml-auto w-max border-[3px] border-black bg-white/70 backdrop-blur-md"
         style={{ display: fits ? undefined : "none" }}
       >
         <ul
           ref={list}
-          className="ml-auto flex w-max items-center gap-1 whitespace-nowrap px-2 py-1"
+          className="flex w-max items-center gap-1 whitespace-nowrap px-2 py-1"
         >
           {LINKS.map(([label, href]) => (
             <li key={href}>
