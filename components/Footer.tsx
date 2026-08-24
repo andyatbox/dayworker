@@ -24,9 +24,9 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="flex h-11 w-11 items-center justify-center border-[3px] border-yellow text-yellow transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
+              className="text-yellow transition-colors duration-100 ease-linear hover:text-white"
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-7 w-7" />
             </a>
           ))}
         </span>
@@ -35,7 +35,7 @@ export default function Footer() {
           contact us at{" "}
           <a
             href="mailto:info@dayworker.co"
-            className="font-extrabold underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
+            className="underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
           >
             info@dayworker.co
           </a>
