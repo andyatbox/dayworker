@@ -27,7 +27,7 @@ export function Workers() {
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-y-20">
         <Reveal dir="right" className="lg:col-span-3">
-          <p className="mt-[38px] text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">
+          <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">
             For the workers —
           </p>
         </Reveal>
@@ -75,7 +75,7 @@ export function Contractors() {
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-y-20">
         <Reveal dir="right" className="lg:col-span-3">
-          <p className="mt-[38px] text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">
+          <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em] text-yellow">
             For contractors —
           </p>
         </Reveal>

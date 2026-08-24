@@ -6,7 +6,7 @@ export default function Intro() {
     <section id="about" className="bg-white px-5 py-28 md:px-10 md:py-44">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <Reveal dir="right" className="lg:col-span-3">
-          <p className="mt-[38px] text-xs font-extrabold uppercase tracking-[0.3em]">
+          <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em]">
             <span className="bg-yellow px-2 py-1">Dayworker revolution</span>
           </p>
         </Reveal>
