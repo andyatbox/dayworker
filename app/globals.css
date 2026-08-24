@@ -90,8 +90,11 @@
 .blocked {
   display: inline;
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
+  /* Prefixed first, standard last. The production minifier treats these as one
+     property and keeps only the final declaration — authored the other way
+     round it shipped -webkit- alone, so the blur died everywhere but dev. */
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: #000000;
   border: 3px solid #000000;
   box-decoration-break: clone;

@@ -48,12 +48,6 @@ export function Workers() {
               language is never a barrier on the job.
             </p>
           </Reveal>
-          <Reveal dir="left" delay={160}>
-            <p className="text-xl font-extrabold uppercase tracking-[0.04em]">
-              Build your professional network,{" "}
-              <span className="bg-yellow px-2">for free, always.</span>
-            </p>
-          </Reveal>
           <Reveal dir="up" delay={220}>
             <Btn href="#signup" outlined big>
               Create your profile <ArrowIcon />
@@ -84,9 +78,9 @@ export function Contractors() {
         <div className="order-2 flex flex-col justify-center gap-10 lg:order-1 lg:col-span-5 lg:pr-8">
           <Reveal dir="right" delay={80}>
             <p className="text-lg leading-relaxed md:text-xl">
-              Post jobs and requirements, build your crew, and line up
-              last-minute support before you need it. Message workers directly
-              and get the job done.
+              Post jobs with requirements, build crews, and line up last-minute
+              support when in a pinch. Message and approve workers to get the
+              job done.
             </p>
           </Reveal>
           <Reveal dir="right" delay={160}>

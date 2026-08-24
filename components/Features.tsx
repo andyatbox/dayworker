@@ -45,11 +45,11 @@ export default function Features() {
           </Reveal>
           <Reveal dir="up" className="lg:col-span-9">
             <h2 className="display text-[clamp(2.6rem,6.2vw,6rem)]">
-              Finally, tech for{" "}
-              <span className="whitespace-nowrap">blue-collar</span> work.
+              Finally, tech for the{" "}
+              <span className="whitespace-nowrap">blue-collar</span> workforce.
             </h2>
             <p className="mt-10 max-w-[46ch] text-lg leading-relaxed md:text-xl">
-              Available on desktop and Apple and Android mobile apps. Key
+              Available on desktop and Apple / Google Play mobile apps. Key
               features include&hellip;
             </p>
           </Reveal>
@@ -62,7 +62,7 @@ export default function Features() {
             <FeatureCell
               n="Workers"
               title="Job search"
-              body="Find work near you, filtered by location and the qualifications you hold."
+              body="Find and apply for jobs that meet your qualifications and skill set."
             />
           </Reveal>
           <Reveal dir="down" delay={60}>
@@ -76,7 +76,7 @@ export default function Features() {
             <FeatureCell
               n="Contractors"
               title="Worker search"
-              body="Find skilled workers fast, by trade, skills, and qualifications."
+              body="Find skilled workers, fast! Search for qualified workers based on their location, skills, and qualifications, then message them directly."
             />
           </Reveal>
 
@@ -89,38 +89,60 @@ export default function Features() {
           </Reveal>
           <Reveal dir="up">
             <FeatureCell
-              n="Networking"
-              title="Dashboard"
-              body="Your jobs, applications, and contacts — one board, always current."
+              n="Contractors"
+              title="Job posts & applicants"
+              body="Post a job and set application requirements. Vet your applicants through the messenger, and give your stamp of approval when it works."
             />
           </Reveal>
           <Reveal dir="left" delay={120}>
             <ParallaxImage
-              src="/images/paving.jpg"
-              alt="Crew laying paving stones"
+              src="/images/construction-country.jpg"
+              alt="Crew on a rural build"
               className="h-full min-h-[320px]"
             />
           </Reveal>
 
           <Reveal dir="right">
             <FeatureCell
-              n="Workers"
-              title="Achievement badges"
-              body="Earn badges as you work and boost your profile where it counts."
+              n="Networking"
+              title="Dashboard"
+              body="Your command post for contacts, managing job postings or applications, and building your professional network."
             />
           </Reveal>
           <Reveal dir="up" delay={60}>
+            <ParallaxImage
+              src="/images/paving.jpg"
+              alt="Crew laying paving stones"
+              className="h-full min-h-[320px]"
+            />
+          </Reveal>
+          <Reveal dir="left" delay={120}>
+            <FeatureCell
+              n="Workers"
+              title="Achievement badges"
+              body="Earn badges as you work and boost your profile. Big earners appear more reliable and professional to interested contractors."
+            />
+          </Reveal>
+
+          <Reveal dir="right" delay={60}>
             <ParallaxImage
               src="/images/chopper.jpg"
               alt="Worker splitting timber"
               className="h-full min-h-[320px]"
             />
           </Reveal>
-          <Reveal dir="left" delay={120}>
+          <Reveal dir="up">
             <FeatureCell
               n="Networking"
               title="Live-translated messenger"
-              body="Message in your language; they read it in theirs. Language is never a barrier on the job."
+              body="Our private messenger is your link to professional success. Use it for networking and at the job site for communication in any spoken language."
+            />
+          </Reveal>
+          <Reveal dir="left" delay={120}>
+            <ParallaxImage
+              src="/images/electrician.jpg"
+              alt="Electrician wiring a panel"
+              className="h-full min-h-[320px]"
             />
           </Reveal>
         </div>

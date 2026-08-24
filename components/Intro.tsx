@@ -15,7 +15,7 @@ export default function Intro() {
           <Reveal dir="up">
             <p className="max-w-[26ch] text-2xl font-extrabold leading-[1.2] md:text-4xl xl:text-5xl">
               Our technology connects contractors with skilled on-demand workers
-              &ndash; making labor shortage a thing of the past. Dayworker is not
+              &ndash; making laborer shortage a thing of the past. Dayworker is not
               a recruiter or pay-per-hire job board.{" "}
               <span className="bg-yellow px-2 [-webkit-box-decoration-break:clone] [box-decoration-break:clone]">
                 There&rsquo;s no middlemen.
@@ -28,8 +28,17 @@ export default function Intro() {
           <Reveal dir="up" delay={90}>
             <p className="mt-12 max-w-[46ch] text-lg leading-relaxed md:text-xl">
               Dayworker is a private, B-to-B networking platform. Create a free
-              profile, post or apply to jobs, build your network, and join us in
-              the blue-collar revolution.
+              profile, post or apply to jobs, build your network, and join the
+              blue-collar revolution.
+            </p>
+          </Reveal>
+          <Reveal dir="up" delay={150}>
+            <p className="mt-8 max-w-[44ch] text-base font-extrabold uppercase leading-relaxed tracking-[0.04em] md:text-lg">
+              Apply to jobs for free, for life. Post jobs for free
+              <sup>†</sup> for a limited time only.{" "}
+              <span className="whitespace-nowrap bg-yellow px-2">
+                Let&rsquo;s get to work!
+              </span>
             </p>
           </Reveal>
         </div>
