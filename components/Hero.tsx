@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { PlayIcon, CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
+import TopNav from "./TopNav";
+import StickyChrome from "./StickyChrome";
 
 /** Gumlet asset ids. The montage loops silently behind the hero; the film
  *  plays with controls in the overlay. */
@@ -77,6 +79,13 @@ export default function Hero() {
           height: "max(100svh, calc(100vw * 9 / 16))",
         }}
       />
+
+      {/* Top chrome, in the hero's own flow: the strip scrolls away with the
+          hero while the boxes below it pin near the top. */}
+      <div className="relative z-40 flex flex-col items-end gap-3 px-5 pt-3 md:px-10">
+        <TopNav />
+        <StickyChrome />
+      </div>
 
       <div className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-2 md:px-10 md:pb-14">
         <div>

@@ -3,7 +3,6 @@ import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import Header from "@/components/Header";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -55,7 +54,6 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable} ${noe.variable}`}>
       <body>
         <SmoothScroll />
-        <Header />
         {children}
       </body>
     </html>
