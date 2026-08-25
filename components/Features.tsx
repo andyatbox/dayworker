@@ -43,7 +43,7 @@ export default function Features() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <Reveal dir="right" className="lg:col-span-3">
             <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em]">
-              <span className="bg-yellow px-2 py-1">Dayworker features</span>
+              <span className="bg-yellow px-2 py-1">Features</span>
             </p>
           </Reveal>
           <Reveal dir="up" className="lg:col-span-9">
@@ -52,8 +52,10 @@ export default function Features() {
               <span className="whitespace-nowrap">blue-collar</span> workforce.
             </h2>
             <p className="mt-10 max-w-[46ch] text-lg leading-relaxed md:text-xl">
-              Available on desktop and Apple / Google Play mobile apps. Key
-              features include&hellip;
+              Available on desktop and Apple / Google Play mobile apps.
+            </p>
+            <p className="mt-8 text-base font-extrabold uppercase tracking-[0.04em] md:text-lg">
+              Key features include&hellip;
             </p>
           </Reveal>
         </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Btn from "./Btn";
-import { AppleIcon, GooglePlayIcon } from "./Icons";
+import AppDownload from "./AppDownload";
 
 /** Tinted-blur slab, matching the hero's video CTA. */
 const BOX =
@@ -44,11 +44,7 @@ export default function StickyChrome() {
     <div ref={holder} className="w-full" style={{ height: CHROME_H }}>
       <div ref={box} className="fixed z-50 flex flex-col items-end">
         <div className={`${BOX} h-[79px]`}>
-          <Btn href="/app">
-            <AppleIcon />
-            <span>Download the app</span>
-            <GooglePlayIcon />
-          </Btn>
+          <AppDownload />
         </div>
 
         {/* Pulled up by one border width so the two boxes share a single stroke. */}

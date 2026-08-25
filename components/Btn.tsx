@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 type BtnProps = {
   children: ReactNode;
   href?: string;
-  onClick?: () => void;
+  /** Receives the event, so a link can be intercepted before it navigates. */
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
   /** Adds a black keyline — use on yellow surfaces so the button reads as a box. */
   outlined?: boolean;
   className?: string;

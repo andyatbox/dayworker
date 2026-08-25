@@ -1,7 +1,8 @@
 import Reveal from "./Reveal";
 import ParallaxImage from "./ParallaxImage";
 import Btn from "./Btn";
-import { AppleIcon, GooglePlayIcon, ArrowIcon } from "./Icons";
+import AppDownload from "./AppDownload";
+import { ArrowIcon } from "./Icons";
 
 /** Closing board: yellow field, giant display type, sign-up + store buttons. */
 export default function AppCTA() {
@@ -25,11 +26,7 @@ export default function AppCTA() {
               Get started <ArrowIcon />
             </Btn>
             {/* One store button — /app sniffs the platform and forwards. */}
-            <Btn href="/app" outlined big>
-              <AppleIcon />
-              <span>Download the app</span>
-              <GooglePlayIcon />
-            </Btn>
+            <AppDownload outlined big />
           </Reveal>
         </div>
 
