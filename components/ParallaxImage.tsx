@@ -12,6 +12,8 @@ type Props = {
   strengthY?: number;
   /** Max horizontal travel in px, driven by mouse X (eased). */
   strengthX?: number;
+  /** Invert the treatment: full colour at rest, greyscale on hover. */
+  colorByDefault?: boolean;
 };
 
 /**
@@ -25,6 +27,7 @@ export default function ParallaxImage({
   className = "",
   strengthY = 46,
   strengthX = 26,
+  colorByDefault = false,
 }: Props) {
   const frame = useRef<HTMLDivElement>(null);
   const mover = useRef<HTMLDivElement>(null);
@@ -41,7 +44,9 @@ export default function ParallaxImage({
           src={src}
           alt={alt}
           loading="lazy"
-          className="h-full w-full object-cover grayscale transition-[filter] duration-100 ease-linear group-hover:grayscale-0"
+          className={`h-full w-full object-cover transition-[filter] duration-100 ease-linear ${
+            colorByDefault ? "group-hover:grayscale" : "grayscale group-hover:grayscale-0"
+          }`}
         />
       </div>
     </div>

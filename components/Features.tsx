@@ -70,8 +70,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="down" delay={60}>
             <ParallaxImage
-              src="/images/carpenter-saw.jpg"
-              alt="Carpenter cutting lumber on site"
+              src="/images/appillo-job-search.jpg"
+              alt="Dayworker job search on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -85,8 +86,9 @@ export default function Features() {
 
           <Reveal dir="right" delay={60}>
             <ParallaxImage
-              src="/images/cleaning.jpg"
-              alt="Professional cleaner at work"
+              src="/images/appillo-worker-search.jpg"
+              alt="Dayworker worker search on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -99,8 +101,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="left" delay={120}>
             <ParallaxImage
-              src="/images/construction-country.jpg"
-              alt="Crew on a rural build"
+              src="/images/appillo-job-post.jpg"
+              alt="Dayworker job posting on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -114,8 +117,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="up" delay={60}>
             <ParallaxImage
-              src="/images/paving.jpg"
-              alt="Crew laying paving stones"
+              src="/images/appillo-dash.jpg"
+              alt="Dayworker dashboard on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -129,8 +133,9 @@ export default function Features() {
 
           <Reveal dir="right" delay={60}>
             <ParallaxImage
-              src="/images/chopper.jpg"
-              alt="Worker splitting timber"
+              src="/images/appillo-badges.jpg"
+              alt="Dayworker achievement badges on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -143,8 +148,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="left" delay={120}>
             <ParallaxImage
-              src="/images/electrician.jpg"
-              alt="Electrician wiring a panel"
+              src="/images/appillo-messenger.jpg"
+              alt="Dayworker live-translated messenger on mobile"
+              colorByDefault
               className="h-full min-h-[320px]"
             />
           </Reveal>

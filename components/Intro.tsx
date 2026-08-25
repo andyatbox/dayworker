@@ -9,6 +9,14 @@ export default function Intro() {
           <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em]">
             <span className="bg-yellow px-2 py-1">Dayworker revolution</span>
           </p>
+          {/* Fills the otherwise empty eyebrow column. The mockup is already
+              on white, so it reads as part of the page. */}
+          <img
+            src="/images/appillo-hero.jpg"
+            alt=""
+            aria-hidden="true"
+            className="mt-10 hidden w-full max-w-[420px] lg:block"
+          />
         </Reveal>
 
         <div className="lg:col-span-9">
