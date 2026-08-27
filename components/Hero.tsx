@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
+import Btn from "./Btn";
 import { PlayIcon, CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
 import TopNav from "./TopNav";
@@ -101,18 +102,14 @@ export default function Hero() {
         </div>
 
         <div className="flex md:justify-end">
-          <button
-            type="button"
-            onClick={show}
-            className="group flex select-none items-center gap-3 border-[3px] border-black bg-white/70 px-4 py-3 text-left text-black backdrop-blur-md transition-colors duration-100 ease-linear hover:bg-black hover:text-yellow md:px-5 md:py-3.5"
-          >
-            <span className="pill flex h-9 w-9 shrink-0 items-center justify-center border-[3px] border-black bg-black text-yellow transition-colors duration-100 ease-linear group-hover:border-yellow md:h-10 md:w-10">
-              <PlayIcon className="h-3.5 w-3.5 translate-x-[2px] md:h-4 md:w-4" />
-            </span>
-            <span className="text-xs font-extrabold uppercase leading-tight tracking-[0.1em] md:text-sm">
-              Dayworker video
-            </span>
-          </button>
+          {/* Same treatment as the app button: house Btn inside a tinted-blur
+              slab with a hard keyline. */}
+          <div className="flex h-[79px] items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md">
+            <Btn onClick={show}>
+              <PlayIcon className="h-[1.1em] w-[1.1em]" />
+              <span>Dayworker video</span>
+            </Btn>
+          </div>
         </div>
       </div>
 
