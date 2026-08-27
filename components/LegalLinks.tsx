@@ -42,7 +42,7 @@ export default function LegalLinks() {
           <button
             type="button"
             onClick={() => open(k)}
-            className="font-extrabold uppercase tracking-[0.3em] underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
+            className="underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
           >
             {DOCS[k].label}
           </button>

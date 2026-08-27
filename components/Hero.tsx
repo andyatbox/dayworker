@@ -61,7 +61,10 @@ export default function Hero() {
   }, [open, close]);
 
   return (
-    <section id="top" className="relative h-[100svh] min-h-[620px] overflow-hidden bg-black">
+    <section
+      id="top"
+      className="relative h-[var(--app-vh,100svh)] min-h-[620px] overflow-hidden bg-black"
+    >
       {/* Montage, hosted on Gumlet. An iframe can't be object-fit: cover, so the
           16:9 frame is sized to overflow whichever axis is short and then
           centred — the same result, cropping rather than letterboxing.
@@ -75,8 +78,8 @@ export default function Hero() {
         tabIndex={-1}
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
         style={{
-          width: "max(100vw, calc(100svh * 16 / 9))",
-          height: "max(100svh, calc(100vw * 9 / 16))",
+          width: "max(100vw, calc(var(--app-vh, 100svh) * 16 / 9))",
+          height: "max(var(--app-vh, 100svh), calc(100vw * 9 / 16))",
         }}
       />
 
@@ -126,7 +129,7 @@ export default function Hero() {
               exactly fits — no crop, no letterbox. */}
           <div
             className="aspect-video"
-            style={{ width: "min(100vw, calc(100svh * 16 / 9))" }}
+            style={{ width: "min(100vw, calc(var(--app-vh, 100svh) * 16 / 9))" }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* captions=false and caption_language=off both switch the burnt-in
