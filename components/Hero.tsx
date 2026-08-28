@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
-import Btn from "./Btn";
-import { PlayIcon, CloseIcon } from "./Icons";
+import { CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
 import TopNav from "./TopNav";
 import StickyChrome from "./StickyChrome";
+import StickyVideo from "./StickyVideo";
 
 /** Gumlet asset ids. The montage loops silently behind the hero; the film
  *  plays with controls in the overlay. */
@@ -101,16 +101,7 @@ export default function Hero() {
           </h1>
         </div>
 
-        <div className="flex md:justify-end">
-          {/* Same treatment as the app button: house Btn inside a tinted-blur
-              slab with a hard keyline. */}
-          <div className="flex h-[79px] items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md">
-            <Btn onClick={show} className="attention">
-              <PlayIcon className="h-[1.1em] w-[1.1em]" />
-              <span>Dayworker video</span>
-            </Btn>
-          </div>
-        </div>
+        <StickyVideo onClick={show} />
       </div>
 
       {open && (

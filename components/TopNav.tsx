@@ -1,10 +1,10 @@
 const LINKS: [string, string][] = [
-  ["Reel", "#top"],
+  ["Video", "#top"],
   ["About", "#about"],
   ["Features", "#features"],
   ["Workers", "#workers"],
   ["Job posts", "#contractors"],
-  ["Get started", "#signup"],
+  ["Sign up", "#signup"],
 ];
 
 /**
