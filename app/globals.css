@@ -44,6 +44,51 @@
     }
   }
 
+  /* Attention pulse on the hero's video CTA: two hard inversions, then a rest.
+     Stepped, not eased — the page's functional motion is jolty throughout. */
+  @keyframes attention-invert {
+    0%,
+    69.9% {
+      background-color: #fbed23;
+      color: #000000;
+    }
+    70%,
+    77.9% {
+      background-color: #000000;
+      color: #fbed23;
+    }
+    78%,
+    85.9% {
+      background-color: #fbed23;
+      color: #000000;
+    }
+    86%,
+    93.9% {
+      background-color: #000000;
+      color: #fbed23;
+    }
+    94%,
+    100% {
+      background-color: #fbed23;
+      color: #000000;
+    }
+  }
+
+  .attention {
+    animation: attention-invert 3s linear infinite;
+  }
+
+  /* Hand the element back to the cascade so the button's own hover wins. */
+  .attention:hover {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .attention {
+      animation: none;
+    }
+  }
+
   @keyframes slice-up {
     from {
       transform: translateY(101%);

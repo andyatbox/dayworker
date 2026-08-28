@@ -105,7 +105,7 @@ export default function Hero() {
           {/* Same treatment as the app button: house Btn inside a tinted-blur
               slab with a hard keyline. */}
           <div className="flex h-[79px] items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md">
-            <Btn onClick={show}>
+            <Btn onClick={show} className="attention">
               <PlayIcon className="h-[1.1em] w-[1.1em]" />
               <span>Dayworker video</span>
             </Btn>

@@ -38,7 +38,21 @@ function FeatureCell({
  */
 export default function Features() {
   return (
-    <section id="features" className="bg-white">
+    <section id="features" className="relative bg-white">
+      {/* Carries the yellow of the section above down at an angle: full width,
+          fixed 64px height, so the wedge shallows out as the viewport widens.
+          The file carries preserveAspectRatio="none" — without it the artwork
+          keeps its ratio and sits centred at 600px inside whatever box it's
+          given, however the box itself is sized. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-16"
+        style={{
+          backgroundImage: "url(/images/yellow-slash.svg)",
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
       <div className="px-5 pb-16 pt-28 md:px-10 md:pb-24 md:pt-44">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <Reveal dir="right" className="lg:col-span-3">

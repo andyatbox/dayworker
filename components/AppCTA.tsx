@@ -17,8 +17,7 @@ export default function AppCTA() {
           </Reveal>
           <Reveal dir="up" delay={60}>
             <h2 className="display text-[clamp(2.4rem,5.2vw,5rem)]">
-              Download the app, build your profile, and post or apply for jobs
-              in a matter of moments.
+              Get the app, create a profile, and post or apply for jobs today.
             </h2>
           </Reveal>
           <Reveal dir="up" delay={180} className="flex flex-wrap gap-5">
