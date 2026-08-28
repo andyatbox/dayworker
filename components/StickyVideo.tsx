@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { PlayIcon } from "./Icons";
 
@@ -27,6 +28,9 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const [parked, setParked] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     let raf = 0;
@@ -48,34 +52,38 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  const button = (
+    <div
+      ref={box}
+      className="fixed z-[60] flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md"
+      style={{ height: BOX_H }}
+    >
+      <Btn onClick={onClick} className="attention">
+        <PlayIcon className="h-[1.1em] w-[1.1em]" />
+        {/* One text node, so the collapsing word doesn't leave the button's
+            own flex gap behind it. The 1fr->0fr grid track animates to the
+            word's own width — capping a max-width instead would need a
+            magic number, and anything short of the tracked uppercase text
+            clips its trailing space, welding the two words together. */}
+        <span className="whitespace-nowrap">
+          <span
+            className="inline-grid align-bottom transition-[grid-template-columns,opacity] duration-[260ms] ease-[cubic-bezier(0.85,0,0.15,1)]"
+            style={{
+              gridTemplateColumns: parked ? "0fr" : "1fr",
+              opacity: parked ? 0 : 1,
+            }}
+          >
+            <span className="min-w-0 overflow-hidden">Dayworker&nbsp;</span>
+          </span>
+          Video
+        </span>
+      </Btn>
+    </div>
+  );
+
   return (
     <div ref={holder} className="w-full" style={{ height: BOX_H }}>
-      <div
-        ref={box}
-        className="fixed z-50 flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md"
-        style={{ height: BOX_H }}
-      >
-        <Btn onClick={onClick} className="attention">
-          <PlayIcon className="h-[1.1em] w-[1.1em]" />
-          {/* One text node, so the collapsing word doesn't leave the button's
-              own flex gap behind it. The 1fr→0fr grid track animates to the
-              word's own width — capping a max-width instead would need a
-              magic number, and anything short of the tracked uppercase text
-              clips its trailing space, welding the two words together. */}
-          <span className="whitespace-nowrap">
-            <span
-              className="inline-grid align-bottom transition-[grid-template-columns,opacity] duration-[260ms] ease-[cubic-bezier(0.85,0,0.15,1)]"
-              style={{
-                gridTemplateColumns: parked ? "0fr" : "1fr",
-                opacity: parked ? 0 : 1,
-              }}
-            >
-              <span className="min-w-0 overflow-hidden">Dayworker&nbsp;</span>
-            </span>
-            Video
-          </span>
-        </Btn>
-      </div>
+      {mounted && createPortal(button, document.body)}
     </div>
   );
 }

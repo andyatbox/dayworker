@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import AppDownload from "./AppDownload";
 
@@ -22,6 +23,9 @@ const REST_TOP = 12;
 export default function StickyChrome() {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     let raf = 0;
@@ -40,23 +44,27 @@ export default function StickyChrome() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  const chrome = (
+    <div ref={box} className="fixed z-[60] flex flex-col items-end">
+      <div className={`${BOX} h-[79px]`}>
+        <AppDownload />
+      </div>
+
+      {/* Pulled up by one border width so the two boxes share a single stroke. */}
+      <div className={`${BOX} -mt-[3px] h-[58px]`}>
+        <Btn href="#signup" small>
+          Get started
+        </Btn>
+        <Btn href="#signin" small>
+          Sign in
+        </Btn>
+      </div>
+    </div>
+  );
+
   return (
     <div ref={holder} className="w-full" style={{ height: CHROME_H }}>
-      <div ref={box} className="fixed z-50 flex flex-col items-end">
-        <div className={`${BOX} h-[79px]`}>
-          <AppDownload />
-        </div>
-
-        {/* Pulled up by one border width so the two boxes share a single stroke. */}
-        <div className={`${BOX} -mt-[3px] h-[58px]`}>
-          <Btn href="#signup" small>
-            Get started
-          </Btn>
-          <Btn href="#signin" small>
-            Sign in
-          </Btn>
-        </div>
-      </div>
+      {mounted && createPortal(chrome, document.body)}
     </div>
   );
 }
