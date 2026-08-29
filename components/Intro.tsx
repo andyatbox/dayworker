@@ -32,9 +32,10 @@ export default function Intro() {
           </Reveal>
           <Reveal dir="up" delay={90}>
             <p className="mt-12 max-w-[46ch] text-lg leading-relaxed md:text-xl">
-              We&rsquo;re a private B-to-B networking platform. Create a free
-              profile, post or apply to jobs, and join the blue-collar
-              revolution.
+              Dayworkers show off skills, experience, and qualifications, then
+              apply to local jobs. Interested contractors reach out privately
+              and sort out the details. With live-translated messaging,
+              language is never a barrier when networking or on the job site.
             </p>
           </Reveal>
           <Reveal dir="up" delay={150}>

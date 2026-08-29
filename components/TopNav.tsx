@@ -2,7 +2,6 @@ const LINKS: [string, string][] = [
   ["Video", "#top"],
   ["About", "#about"],
   ["Features", "#features"],
-  ["Workers", "#workers"],
   ["Job posts", "#contractors"],
   ["Sign up", "#signup"],
 ];

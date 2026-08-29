@@ -86,9 +86,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="down" delay={60}>
             <ParallaxImage
-              src="/images/appillo-job-search.jpg"
+              src="/images/appillo-job-search-map.png"
               alt="Dayworker job search on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -102,9 +102,9 @@ export default function Features() {
 
           <Reveal dir="right" delay={60}>
             <ParallaxImage
-              src="/images/appillo-worker-search.jpg"
+              src="/images/appillo-worker-search.png"
               alt="Dayworker worker search on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -117,9 +117,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="left" delay={120}>
             <ParallaxImage
-              src="/images/appillo-job-post.jpg"
+              src="/images/appillo-job-post.png"
               alt="Dayworker job posting on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -133,9 +133,9 @@ export default function Features() {
           </Reveal>
           <Reveal dir="up" delay={60}>
             <ParallaxImage
-              src="/images/appillo-dash.jpg"
+              src="/images/appillo-dash.png"
               alt="Dayworker dashboard on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -149,9 +149,9 @@ export default function Features() {
 
           <Reveal dir="right" delay={60}>
             <ParallaxImage
-              src="/images/appillo-badges.jpg"
+              src="/images/appillo-worker.png"
               alt="Dayworker achievement badges on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>
@@ -159,14 +159,14 @@ export default function Features() {
             <FeatureCell
               n="Networking"
               title="Live-translated messenger"
-              body="Our private messenger is your link to professional success. Use it for networking and at the job site for communication in any spoken language."
+              body="Our private messenger is your link to professional success. Use it for networking and at the job site for communication in multiple spoken languages."
             />
           </Reveal>
           <Reveal dir="left" delay={120}>
             <ParallaxImage
-              src="/images/appillo-messenger.jpg"
+              src="/images/appillo-messenger.png"
               alt="Dayworker live-translated messenger on mobile"
-              colorByDefault
+              plate
               className="h-full min-h-[320px]"
             />
           </Reveal>

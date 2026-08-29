@@ -12,8 +12,8 @@ type Props = {
   strengthY?: number;
   /** Max horizontal travel in px, driven by mouse X (eased). */
   strengthX?: number;
-  /** Invert the treatment: full colour at rest, greyscale on hover. */
-  colorByDefault?: boolean;
+  /** Cut-out artwork on a yellow plate that goes black on hover; no filter. */
+  plate?: boolean;
 };
 
 /**
@@ -27,14 +27,19 @@ export default function ParallaxImage({
   className = "",
   strengthY = 46,
   strengthX = 26,
-  colorByDefault = false,
+  plate = false,
 }: Props) {
   const frame = useRef<HTMLDivElement>(null);
   const mover = useRef<HTMLDivElement>(null);
   useParallax(frame, mover, strengthX, strengthY);
 
   return (
-    <div ref={frame} className={`group relative overflow-hidden bg-black ${className}`}>
+    <div
+      ref={frame}
+      className={`group relative overflow-hidden transition-colors duration-100 ease-linear ${
+        plate ? "bg-yellow hover:bg-black" : "bg-black"
+      } ${className}`}
+    >
       <div
         ref={mover}
         className="absolute will-change-transform"
@@ -44,8 +49,10 @@ export default function ParallaxImage({
           src={src}
           alt={alt}
           loading="lazy"
-          className={`h-full w-full object-cover transition-[filter] duration-100 ease-linear ${
-            colorByDefault ? "group-hover:grayscale" : "grayscale group-hover:grayscale-0"
+          className={`h-full w-full object-cover ${
+            plate
+              ? ""
+              : "grayscale transition-[filter] duration-100 ease-linear group-hover:grayscale-0"
           }`}
         />
       </div>

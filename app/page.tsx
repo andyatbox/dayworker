@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Intro from "@/components/Intro";
 import Features from "@/components/Features";
-import { Workers, Contractors } from "@/components/Audiences";
+import { Contractors } from "@/components/Audiences";
 import AppCTA from "@/components/AppCTA";
 import Footer from "@/components/Footer";
 
@@ -17,7 +17,6 @@ export default function Home() {
       <Marquee />
       <Intro />
       <Features />
-      <Workers />
       <Contractors />
       <AppCTA />
       <Footer />
