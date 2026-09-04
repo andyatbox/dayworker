@@ -3,6 +3,7 @@ import ParallaxImage from "./ParallaxImage";
 import Btn from "./Btn";
 import AppDownload from "./AppDownload";
 import { ArrowIcon } from "./Icons";
+import { SHOW_ACCOUNT_CTA } from "./featureFlags";
 
 /** Closing board: yellow field, giant display type, sign-up + store buttons. */
 export default function AppCTA() {
@@ -21,9 +22,11 @@ export default function AppCTA() {
             </h2>
           </Reveal>
           <Reveal dir="up" delay={180} className="flex flex-wrap gap-5">
-            <Btn href="#" outlined big>
-              Get started <ArrowIcon />
-            </Btn>
+            {SHOW_ACCOUNT_CTA && (
+              <Btn href="#" outlined big>
+                Get started <ArrowIcon />
+              </Btn>
+            )}
             {/* One store button — /app sniffs the platform and forwards. */}
             <AppDownload outlined big />
           </Reveal>

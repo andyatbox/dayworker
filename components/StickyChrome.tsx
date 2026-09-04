@@ -4,13 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import AppDownload from "./AppDownload";
+import { SHOW_ACCOUNT_CTA } from "./featureFlags";
 
 /** Tinted-blur slab, matching the hero's video CTA. */
 const BOX =
   "flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md";
 
-/** App box (79) + account box (58), less the border they share. */
-const CHROME_H = 134;
+/** App box (79) + account box (58), less the border they share. Without the
+ *  account box it is the app box alone, so the hero reserves no dead space. */
+const CHROME_H = SHOW_ACCOUNT_CTA ? 79 + 58 - 3 : 79;
 /** Matches the mark's pin, so the two settle on the same line. */
 const REST_TOP = 12;
 
@@ -51,14 +53,16 @@ export default function StickyChrome() {
       </div>
 
       {/* Pulled up by one border width so the two boxes share a single stroke. */}
-      <div className={`${BOX} -mt-[3px] h-[58px]`}>
-        <Btn href="#signup" small>
-          Get started
-        </Btn>
-        <Btn href="#signin" small>
-          Sign in
-        </Btn>
-      </div>
+      {SHOW_ACCOUNT_CTA && (
+        <div className={`${BOX} -mt-[3px] h-[58px]`}>
+          <Btn href="#signup" small>
+            Get started
+          </Btn>
+          <Btn href="#signin" small>
+            Sign in
+          </Btn>
+        </div>
+      )}
     </div>
   );
 

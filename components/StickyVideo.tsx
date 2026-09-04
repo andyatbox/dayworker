@@ -4,13 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { PlayIcon } from "./Icons";
+import { SHOW_ACCOUNT_CTA } from "./featureFlags";
 
 /**
  * Where it settles: the chrome stack runs 12 → 146 (12 top inset, a 79px app
  * box and a 58px account box sharing one 3px border), and this shares a border
  * with it in turn, so the three read as one connected column.
+ *
+ * With the account box hidden the stack ends at 91 instead, and this rides up
+ * to sit directly under the app box — otherwise it would park against a gap.
  */
-const REST_TOP = 12 + 79 + 58 - 3 - 3;
+const REST_TOP = SHOW_ACCOUNT_CTA ? 12 + 79 + 58 - 3 - 3 : 12 + 79 - 3;
 
 /** Slab height, matching the app box above it. */
 const BOX_H = 79;
