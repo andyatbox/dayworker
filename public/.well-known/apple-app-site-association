@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["SSM8UDDU33.com.dayworker.dayworkerMobile"],
+        "components": [
+          { "/": "/job/*" },
+          { "/": "/user/*" }
+        ]
+      }
+    ]
+  }
+}

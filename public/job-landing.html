@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dayworker</title>
+    <!-- Shows Apple's native "Open in app" banner on iOS Safari -->
+    <meta name="apple-itunes-app" content="app-id=6502521610" />
+    <style>
+      :root { --yellow: #fff500; --ink: #111; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; min-height: 100vh; display: flex; align-items: center;
+        justify-content: center; padding: 24px; background: var(--yellow);
+        color: var(--ink); text-align: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      .card { max-width: 420px; width: 100%; }
+      h1 { font-size: 26px; line-height: 1.25; margin: 0 0 12px; }
+      p { font-size: 16px; line-height: 1.5; margin: 0 0 24px; opacity: 0.75; }
+      a.btn {
+        display: block; padding: 16px 20px; border-radius: 28px;
+        text-decoration: none; font-weight: 700; font-size: 16px;
+        margin-bottom: 12px;
+      }
+      .primary { background: var(--ink); color: #fff; }
+      .secondary { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Open this in the Dayworker app</h1>
+      <p>Find work near you, apply in a tap, and message contractors directly.</p>
+      <a class="btn primary" id="store" href="https://apps.apple.com/us/app/dayworker-co/id6502521610">
+        Get the app
+      </a>
+      <a class="btn secondary" id="deep" href="#">Already installed? Open it</a>
+    </div>
+
+    <script>
+      (function () {
+        var ua = navigator.userAgent || '';
+        var isAndroid = /Android/i.test(ua);
+        var isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+        var APP_STORE = 'https://apps.apple.com/us/app/dayworker-co/id6502521610';
+        var PLAY_STORE = 'https://play.google.com/store/apps/details?id=com.dayworkermobile';
+
+        var store = document.getElementById('store');
+        if (isAndroid) {
+          store.href = PLAY_STORE;
+        } else if (!isIOS) {
+          // Desktop: the app is mobile-only, so point at the marketing site.
+          store.href = 'https://www.dayworker.co';
+          store.textContent = 'Learn more about Dayworker';
+        }
+
+        // Custom-scheme fallback: mirrors the current path, e.g.
+        // /job/abc123 -> dayworker://job/abc123
+        document.getElementById('deep').href =
+          'dayworker://' + window.location.pathname.replace(/^\/+/, '') + window.location.search;
+
+        // Optional: auto-send mobile visitors to the store after a moment.
+        // Left off by default so the recipient sees the context first.
+        // if (isIOS || isAndroid) setTimeout(function () { window.location.href = store.href; }, 2500);
+      })();
+    </script>
+  </body>
+</html>

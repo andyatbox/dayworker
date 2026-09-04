@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.dayworkermobile",
+      "sha256_cert_fingerprints": [
+        "B7:67:CB:3E:E2:67:71:A8:14:4E:1F:83:89:D1:1C:E9:C5:E5:46:A9:0B:99:CB:EC:66:F5:71:3F:8D:12:D8:48"
+      ]
+    }
+  }
+]
