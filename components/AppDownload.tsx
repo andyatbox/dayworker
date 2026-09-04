@@ -1,13 +1,19 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { lenisRef } from "./SmoothScroll";
 import { AppleIcon, GooglePlayIcon, CloseIcon } from "./Icons";
 
-type Props = { big?: boolean; outlined?: boolean };
+type Props = {
+  big?: boolean;
+  outlined?: boolean;
+  /** Overrides the button's face. The QR dialog keeps the download wording
+   *  regardless, since that is what the dialog is for. */
+  children?: ReactNode;
+};
 
 /**
  * Download button. On a touch device it just goes to /app, where the phone can
@@ -17,7 +23,7 @@ type Props = { big?: boolean; outlined?: boolean };
  * Starts in the touch state: that's the plain link, so it's what renders on the
  * server and what a client without JS keeps.
  */
-export default function AppDownload({ big, outlined }: Props) {
+export default function AppDownload({ big, outlined, children }: Props) {
   const [open, setOpen] = useState(false);
   const [touch, setTouch] = useState(true);
 
@@ -64,7 +70,7 @@ export default function AppDownload({ big, outlined }: Props) {
           lenisRef.current?.stop();
         }}
       >
-        {label}
+        {children ?? label}
       </Btn>
 
       {/* Portalled to the body: these buttons sit inside the tinted-blur boxes,

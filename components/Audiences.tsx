@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
 import ParallaxSlideshow from "./ParallaxSlideshow";
-import Btn from "./Btn";
+import AppDownload from "./AppDownload";
 import { ArrowIcon } from "./Icons";
 
 const CONTRACTOR_SHOTS = [
@@ -49,9 +49,12 @@ export function Contractors() {
             </p>
           </Reveal>
           <Reveal dir="up" delay={220}>
-            <Btn href="#signup" big>
+            {/* Posting happens in the app, so this hands the visitor the same
+                download route as the store button — /app on a phone, QR on a
+                desktop — under the wording that fits the section. */}
+            <AppDownload big>
               Post a job <ArrowIcon />
-            </Btn>
+            </AppDownload>
           </Reveal>
         </div>
 
