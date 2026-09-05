@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ViewportHeight from "@/components/ViewportHeight";
+import ServiceWorker from "@/components/ServiceWorker";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -62,6 +63,7 @@ export default function RootLayout({
       <body>
         <SmoothScroll />
         <ViewportHeight />
+        <ServiceWorker />
         {children}
       </body>
     </html>

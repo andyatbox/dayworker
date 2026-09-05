@@ -4,14 +4,20 @@ import { useCallback, useEffect, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { CloseIcon } from "./Icons";
 
+/**
+ * Same-origin paths, not absolute URLs. These pages ship with the site now, so
+ * pointing at a fixed host would iframe production into every preview deploy
+ * and into localhost, and would bounce the apex through its redirect to reach
+ * a page already sitting on the current origin.
+ */
 const DOCS = {
-  terms: { label: "Terms", url: "https://www.dayworker.co/terms" },
-  privacy: { label: "Privacy", url: "https://www.dayworker.co/privacy" },
+  terms: { label: "Terms", url: "/terms" },
+  privacy: { label: "Privacy", url: "/privacy" },
 } as const;
 
 type DocKey = keyof typeof DOCS;
 
-/** Terms / Privacy, opened in an overlay over the existing dayworker.co pages. */
+/** Terms / Privacy, opened in an overlay rather than navigating away. */
 export default function LegalLinks() {
   const [doc, setDoc] = useState<DocKey | null>(null);
 
