@@ -4,25 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { PlayIcon } from "./Icons";
-import { SHOW_ACCOUNT_CTA } from "./featureFlags";
-
-/**
- * Where it settles: the chrome stack runs 12 → 146 (12 top inset, a 79px app
- * box and a 58px account box sharing one 3px border), and this shares a border
- * with it in turn, so the three read as one connected column.
- *
- * With the account box hidden the stack ends at 91 instead, and this rides up
- * to sit directly under the app box — otherwise it would park against a gap.
- */
-const REST_TOP = SHOW_ACCOUNT_CTA ? 12 + 79 + 58 - 3 - 3 : 12 + 79 - 3;
+import { APP_BOX_H, videoRestTop } from "./chromeLayout";
 
 /** Slab height, matching the app box above it. */
-const BOX_H = 79;
+const BOX_H = APP_BOX_H;
 
 /**
  * The hero's video CTA. It starts down beside the tagline and rides up with the
- * page until it parks beneath the account box, dropping "Dayworker" from the
- * label as it lands so the parked button stays compact.
+ * page until it parks beneath the chrome above it, dropping "Dayworker" from
+ * the label as it lands so the parked button stays compact.
  *
  * Clamped by hand rather than with `position: sticky`, which would stop holding
  * the moment the hero scrolled past — the same reason LogoSwap and StickyChrome
@@ -43,11 +33,14 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        b.style.top = `${Math.max(REST_TOP, r.top)}px`;
+        // Derived each frame from the boxes above, which depend on the
+        // measured strip and on whether the account box is showing.
+        const rest = videoRestTop();
+        b.style.top = `${Math.max(rest, r.top)}px`;
         // Right-anchored to the holder, which spans its grid column, so the
         // button stays flush with the chrome above whatever its width.
         b.style.right = `${document.documentElement.clientWidth - r.right}px`;
-        const next = r.top <= REST_TOP;
+        const next = r.top <= rest;
         setParked((p) => (p === next ? p : next));
       }
       raf = requestAnimationFrame(tick);

@@ -5,22 +5,18 @@ import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import AppDownload from "./AppDownload";
 import { SHOW_ACCOUNT_CTA } from "./featureFlags";
+import { APP_BOX_H, CHROME_H, chromeRestTop } from "./chromeLayout";
 
 /** Tinted-blur slab, matching the hero's video CTA. */
 const BOX =
   "flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md";
 
-/** App box (79) + account box (58), less the border they share. Without the
- *  account box it is the app box alone, so the hero reserves no dead space. */
-const CHROME_H = SHOW_ACCOUNT_CTA ? 79 + 58 - 3 : 79;
-/** Matches the mark's pin, so the two settle on the same line. */
-const REST_TOP = 12;
-
 /**
- * App and account boxes. They start in the hero's flow beneath the jump-to
- * strip and ride up with it, then pin at REST_TOP for the rest of the page —
- * sticky behaviour driven manually, the same way LogoSwap works, because a
- * real `position: sticky` would stop holding once the hero scrolled past.
+ * App and account boxes. They start in the hero's flow, a gap below the jump-to
+ * strip, and ride up with it until they park flush against the strip's bottom
+ * edge — sharing its stroke, so the column reads as one piece. Sticky behaviour
+ * driven manually, the same way LogoSwap works, because a real `position:
+ * sticky` would stop holding once the hero scrolled past.
  */
 export default function StickyChrome() {
   const holder = useRef<HTMLDivElement>(null);
@@ -36,7 +32,9 @@ export default function StickyChrome() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        b.style.top = `${Math.max(REST_TOP, r.top)}px`;
+        // Read each frame: the strip is measured, not assumed, and it goes
+        // away below 900px.
+        b.style.top = `${Math.max(chromeRestTop(), r.top)}px`;
         // Right-aligned to the holder; clientWidth excludes any scrollbar.
         b.style.right = `${document.documentElement.clientWidth - r.right}px`;
       }
@@ -48,7 +46,7 @@ export default function StickyChrome() {
 
   const chrome = (
     <div ref={box} className="fixed z-[60] flex flex-col items-end">
-      <div className={`${BOX} h-[79px]`}>
+      <div className={BOX} style={{ height: APP_BOX_H }}>
         <AppDownload />
       </div>
 

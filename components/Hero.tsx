@@ -84,9 +84,11 @@ export default function Hero() {
         }}
       />
 
-      {/* Top chrome, in the hero's own flow: the strip scrolls away with the
-          hero while the boxes below it pin near the top. */}
-      <div className="relative z-40 flex flex-col items-end gap-3 px-5 pt-3 md:px-10">
+      {/* Top chrome. The strip is pinned for the life of the page; the boxes
+          below start here in the hero's flow and ride up to meet it. No flex
+          gap — TopNav's holder carries START_GAP itself, so the spacing
+          collapses along with the strip below 900px. */}
+      <div className="relative z-40 flex flex-col items-end px-5 pt-3 md:px-10">
         <TopNav />
         <StickyChrome />
       </div>
