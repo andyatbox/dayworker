@@ -10,10 +10,31 @@ import { AppleIcon, GooglePlayIcon, CloseIcon } from "./Icons";
 type Props = {
   big?: boolean;
   outlined?: boolean;
+  /** Drops the button's face to "Get the app", for the sticky box once it
+   *  parks and the wording has to stay short. */
+  compact?: boolean;
   /** Overrides the button's face. The QR dialog keeps the download wording
    *  regardless, since that is what the dialog is for. */
   children?: ReactNode;
 };
+
+/**
+ * One word of the label, collapsing to nothing as its counterpart opens. The
+ * 1fr->0fr grid track animates to the word's own width; capping a max-width
+ * instead would need a magic number, and anything short of the tracked
+ * uppercase text clips its trailing space and welds the words together. The
+ * same trick the video button uses to drop "Dayworker".
+ */
+function Word({ show, children }: { show: boolean; children: ReactNode }) {
+  return (
+    <span
+      className="inline-grid align-bottom transition-[grid-template-columns,opacity] duration-[260ms] ease-[cubic-bezier(0.85,0,0.15,1)]"
+      style={{ gridTemplateColumns: show ? "1fr" : "0fr", opacity: show ? 1 : 0 }}
+    >
+      <span className="min-w-0 overflow-hidden">{children}</span>
+    </span>
+  );
+}
 
 /**
  * Download button. On a touch device it just goes to /app, where the phone can
@@ -23,7 +44,7 @@ type Props = {
  * Starts in the touch state: that's the plain link, so it's what renders on the
  * server and what a client without JS keeps.
  */
-export default function AppDownload({ big, outlined, children }: Props) {
+export default function AppDownload({ big, outlined, compact, children }: Props) {
   const [open, setOpen] = useState(false);
   const [touch, setTouch] = useState(true);
 
@@ -49,10 +70,26 @@ export default function AppDownload({ big, outlined, children }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close]);
 
+  /** Full wording, for the dialog — it has the room and the context. */
   const label = (
     <>
       <AppleIcon />
       <span>Download the app</span>
+      <GooglePlayIcon />
+    </>
+  );
+
+  /** The button's own face: "Download the app" tightening to "Get the app" as
+   *  the box parks. One text node, so the swapping word doesn't leave the
+   *  button's own flex gap stranded behind it. */
+  const face = (
+    <>
+      <AppleIcon />
+      <span className="whitespace-nowrap">
+        <Word show={!compact}>Download&nbsp;</Word>
+        <Word show={!!compact}>Get&nbsp;</Word>
+        the app
+      </span>
       <GooglePlayIcon />
     </>
   );
@@ -70,7 +107,7 @@ export default function AppDownload({ big, outlined, children }: Props) {
           lenisRef.current?.stop();
         }}
       >
-        {children ?? label}
+        {children ?? face}
       </Btn>
 
       {/* Portalled to the body: these buttons sit inside the tinted-blur boxes,

@@ -7,9 +7,18 @@ import { SHOW_ACCOUNT_CTA } from "./featureFlags";
  * heights above it rather than written out by hand.
  */
 
-/** Top inset the column sits at. Drives the header's own padding and the
- *  mark's pin on the other side, so the row stays level. */
+/**
+ * Where the strip starts, at the top of the page: drives the header's own
+ * padding, so the column begins here in the hero's flow.
+ */
 export const TOP_INSET = 30;
+
+/**
+ * Where the strip parks once you scroll — it rides up from TOP_INSET and holds
+ * here for the rest of the page. The mark on the other side pins to the same
+ * number, so the two stay level across the top.
+ */
+export const NAV_REST = 15;
 
 /** House keyline. Stacked boxes overlap by one so they share a single stroke. */
 export const BORDER = 3;
@@ -21,9 +30,8 @@ export const APP_BOX_H = 79;
 export const ACCOUNT_BOX_H = 58;
 
 /**
- * How far below the strip the chrome starts out in the hero's flow. The strip
- * is pinned and never moves, so this is exactly the distance the app box rides
- * up before it parks — the whole of the scroll it has to play with.
+ * How far below the strip the chrome starts out in the hero's flow — most of
+ * the distance the app box rides up before it parks against the strip.
  */
 export const START_GAP = 50;
 
@@ -31,8 +39,8 @@ export const START_GAP = 50;
  * Live height of the jump-to strip, published by TopNav each frame. The strip
  * is sized by its own links and drops out entirely below 900px, so the boxes
  * stacking beneath it measure it rather than assume a number. 0 when it is not
- * rendered, which is what collapses the column back to the top inset on narrow
- * screens.
+ * rendered, which is what collapses the column back to the strip's own resting
+ * inset on narrow screens.
  */
 export const navHeightRef = { current: 0 };
 
@@ -40,10 +48,14 @@ export const navHeightRef = { current: 0 };
 export const CHROME_H =
   APP_BOX_H + (SHOW_ACCOUNT_CTA ? ACCOUNT_BOX_H - BORDER : 0);
 
-/** Where the chrome parks: flush under the strip, sharing its bottom stroke. */
+/**
+ * Where the chrome parks: flush under the parked strip, sharing its bottom
+ * stroke. Measured against NAV_REST rather than the strip's live position — the
+ * strip settles within 15px of scroll, long before the chrome catches up.
+ */
 export function chromeRestTop() {
   const nav = navHeightRef.current;
-  return nav > 0 ? TOP_INSET + nav - BORDER : TOP_INSET;
+  return nav > 0 ? NAV_REST + nav - BORDER : NAV_REST;
 }
 
 /** Where the video button parks: flush under the chrome stack in turn. */

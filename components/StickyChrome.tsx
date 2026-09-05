@@ -14,13 +14,15 @@ const BOX =
 /**
  * App and account boxes. They start in the hero's flow, a gap below the jump-to
  * strip, and ride up with it until they park flush against the strip's bottom
- * edge — sharing its stroke, so the column reads as one piece. Sticky behaviour
+ * edge — sharing its stroke, so the column reads as one piece, the label
+ * tightening to "Get the app" as it lands. Sticky behaviour
  * driven manually, the same way LogoSwap works, because a real `position:
  * sticky` would stop holding once the hero scrolled past.
  */
 export default function StickyChrome() {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
+  const [parked, setParked] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -34,9 +36,12 @@ export default function StickyChrome() {
         const r = h.getBoundingClientRect();
         // Read each frame: the strip is measured, not assumed, and it goes
         // away below 900px.
-        b.style.top = `${Math.max(chromeRestTop(), r.top)}px`;
+        const rest = chromeRestTop();
+        b.style.top = `${Math.max(rest, r.top)}px`;
         // Right-aligned to the holder; clientWidth excludes any scrollbar.
         b.style.right = `${document.documentElement.clientWidth - r.right}px`;
+        const next = r.top <= rest;
+        setParked((p) => (p === next ? p : next));
       }
       raf = requestAnimationFrame(tick);
     };
@@ -47,7 +52,7 @@ export default function StickyChrome() {
   const chrome = (
     <div ref={box} className="fixed z-[60] flex flex-col items-end">
       <div className={BOX} style={{ height: APP_BOX_H }}>
-        <AppDownload />
+        <AppDownload compact={parked} />
       </div>
 
       {/* Pulled up by one border width so the two boxes share a single stroke. */}

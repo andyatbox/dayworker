@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { START_GAP, TOP_INSET, navHeightRef } from "./chromeLayout";
+import { NAV_REST, START_GAP, navHeightRef } from "./chromeLayout";
 
 const LINKS: [string, string][] = [
   ["Video", "#top"],
@@ -13,14 +13,14 @@ const LINKS: [string, string][] = [
 ];
 
 /**
- * Jump-to strip, sized to its links and right-aligned. Unlike the boxes below
- * it — which start in the hero's flow and ride up before they park — this is
- * pinned at the top inset for the life of the page and never moves.
+ * Jump-to strip, sized to its links and right-aligned. It rides up out of the
+ * hero's flow like the boxes below it, then holds at NAV_REST for the rest of
+ * the page — a short ride, since it starts only TOP_INSET from the top.
  *
- * It still keeps a holder in the hero's flow, carrying its own height plus the
- * gap the chrome starts out below it, so the boxes underneath begin in the
- * right place. And it publishes its measured height, because the strip is sized
- * by its own content and the whole column stacks against its bottom edge.
+ * Its holder carries its own height plus the gap the chrome starts out below
+ * it, so the boxes underneath begin in the right place. And it publishes its
+ * measured height, because the strip is sized by its own content and the whole
+ * column stacks against its bottom edge.
  *
  * Below 900px it drops out entirely — no wrapping, no burger — and the holder
  * collapses to nothing with it.
@@ -44,8 +44,9 @@ export default function TopNav() {
           navHeightRef.current = height;
           h.style.height = height > 0 ? `${height + START_GAP}px` : "0px";
         }
-        // Right-aligned to the holder; clientWidth excludes any scrollbar.
         const r = h.getBoundingClientRect();
+        n.style.top = `${Math.max(NAV_REST, r.top)}px`;
+        // Right-aligned to the holder; clientWidth excludes any scrollbar.
         n.style.right = `${document.documentElement.clientWidth - r.right}px`;
       }
       raf = requestAnimationFrame(tick);
@@ -59,7 +60,6 @@ export default function TopNav() {
       ref={nav}
       aria-label="Section navigation"
       className="fixed z-[60] hidden w-max border-[3px] border-black bg-white/70 backdrop-blur-md min-[900px]:block"
-      style={{ top: TOP_INSET }}
     >
       <ul className="flex w-max items-center gap-1 whitespace-nowrap px-2 py-1">
         {LINKS.map(([label, href]) => (
