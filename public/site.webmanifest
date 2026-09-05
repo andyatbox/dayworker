@@ -1,6 +1,7 @@
 {
   "name": "Dayworker",
   "short_name": "Dayworker",
+  "start_url": "/",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -17,5 +18,18 @@
   ],
   "theme_color": "#fbed23",
   "background_color": "#fbed23",
-  "display": "standalone"
+  "display": "standalone",
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.dayworkermobile",
+      "url": "https://play.google.com/store/apps/details?id=com.dayworkermobile"
+    },
+    {
+      "platform": "itunes",
+      "id": "6502521610",
+      "url": "https://apps.apple.com/us/app/dayworker-co/id6502521610"
+    }
+  ],
+  "prefer_related_applications": true
 }

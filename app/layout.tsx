@@ -26,6 +26,12 @@ export const metadata: Metadata = {
   description:
     "Dayworker connects contractors with skilled workers, on demand. No middlemen. No hiring fees. Build your free profile — available online and on iOS and Android.",
   manifest: "/site.webmanifest",
+  /**
+   * Safari's Smart App Banner, across the top of the page on iOS. The Android
+   * counterpart is not a tag at all — it is related_applications in
+   * site.webmanifest, which is what Chrome reads.
+   */
+  itunes: { appId: "6502521610" },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
