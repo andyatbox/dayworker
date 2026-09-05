@@ -7,8 +7,9 @@ import { SHOW_ACCOUNT_CTA } from "./featureFlags";
  * heights above it rather than written out by hand.
  */
 
-/** Top inset the column sits at, matching the header's own padding. */
-export const TOP_INSET = 12;
+/** Top inset the column sits at. Drives the header's own padding and the
+ *  mark's pin on the other side, so the row stays level. */
+export const TOP_INSET = 30;
 
 /** House keyline. Stacked boxes overlap by one so they share a single stroke. */
 export const BORDER = 3;
@@ -24,7 +25,7 @@ export const ACCOUNT_BOX_H = 58;
  * is pinned and never moves, so this is exactly the distance the app box rides
  * up before it parks — the whole of the scroll it has to play with.
  */
-export const START_GAP = 96;
+export const START_GAP = 50;
 
 /**
  * Live height of the jump-to strip, published by TopNav each frame. The strip

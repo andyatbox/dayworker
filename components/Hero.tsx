@@ -7,6 +7,7 @@ import LogoSwap from "./LogoSwap";
 import TopNav from "./TopNav";
 import StickyChrome from "./StickyChrome";
 import StickyVideo from "./StickyVideo";
+import { TOP_INSET } from "./chromeLayout";
 
 /** Gumlet asset ids. The montage loops silently behind the hero; the film
  *  plays with controls in the overlay. */
@@ -88,7 +89,10 @@ export default function Hero() {
           below start here in the hero's flow and ride up to meet it. No flex
           gap — TopNav's holder carries START_GAP itself, so the spacing
           collapses along with the strip below 900px. */}
-      <div className="relative z-40 flex flex-col items-end px-5 pt-3 md:px-10">
+      <div
+        className="relative z-40 flex flex-col items-end px-5 md:px-10"
+        style={{ paddingTop: TOP_INSET }}
+      >
         <TopNav />
         <StickyChrome />
       </div>
