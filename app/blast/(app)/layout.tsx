@@ -12,6 +12,7 @@ const NAV = [
   ["/blast/contacts", "Contacts"],
   ["/blast/lists", "Lists"],
   ["/blast/registrations", "Sign-ups"],
+  ["/blast/test", "Test invites"],
   ["/blast/senders", "Mailboxes"],
   ["/blast/data", "Data & setup"],
 ];

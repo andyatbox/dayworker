@@ -32,7 +32,8 @@ export async function GET() {
         email: contact.email ?? "",
         zip: contact.zip ?? "",
         trades: contact.trades ?? [],
-        role: contact.tags?.includes("worker") ? "worker" : "contractor",
+        // Invitation emails only go to hiring contractors.
+        role: "contractor",
         lang: contact.lang === "es" ? "es" : "en",
       }
     : { invited: false, tracked };

@@ -55,7 +55,10 @@ export function loadInvite() {
     try {
       const res = await fetch("/api/invite", { cache: "no-store" });
       const data = (await res.json()) as Partial<Invite>;
-      return { ...base, ...data, visit: cookie("dw_inv"), role: urlRole() ?? data.role ?? base.role, lang: urlLang() ?? data.lang ?? base.lang };
+      // Invitation emails go to hiring contractors only, so a visit that
+      // arrives prefilled from one always starts on "Hiring contractor".
+      const role = data.invited ? "contractor" : (urlRole() ?? data.role ?? base.role);
+      return { ...base, ...data, visit: cookie("dw_inv"), role, lang: urlLang() ?? data.lang ?? base.lang };
     } catch {
       return base;
     }
