@@ -45,8 +45,8 @@ export default function Footer() {
 
       <div className="mt-20 border-t-[3px] border-yellow pt-8">
         <p className="max-w-[70ch] text-sm leading-relaxed">
-          † After our introductory period, job postings require a small monthly
-          membership fee.
+          †Connecting with workers is free for a limited time. As of March of
+          2027, messaging workers will require a monthly subscription.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-x-2 text-sm leading-relaxed">
           <span>© 2026 Dayworker, Inc. All Rights Reserved.</span>

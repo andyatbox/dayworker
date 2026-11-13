@@ -49,7 +49,7 @@ export const copy = {
       body: (business: string) =>
         `We're personally inviting ${business || "you"} to join Dayworker, the blue-collar pro network, as a Founding Member.`,
       offer:
-        "Founding Members get 3 free months of worker connections once memberships are required to message workers (early 2027, date TBD).",
+        "Connecting with workers is free until March of 2027. Founding Members receive 3 additional free months, so sign up today!",
       later: "Look around first",
     },
     signup: {
@@ -137,7 +137,7 @@ export const copy = {
       body: (business: string) =>
         `${business ? `Invitamos personalmente a ${business}` : "Le invitamos personalmente"} a unirse a Dayworker, la red profesional de oficios, como Miembro Fundador.`,
       offer:
-        "Los Miembros Fundadores recibirán 3 meses gratis de conexiones con trabajadores cuando se requiera una membresía para enviar mensajes a trabajadores (a principios de 2027, fecha por confirmar).",
+        "Conectar con trabajadores es gratis hasta marzo de 2027. Los Miembros Fundadores reciben 3 meses gratis adicionales, ¡así que regístrese hoy!",
       later: "Primero quiero ver el sitio",
     },
     signup: {
