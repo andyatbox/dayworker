@@ -15,8 +15,25 @@ type Driver = { query: <T = Row>(text: string, params?: unknown[]) => Promise<T[
 
 const g = globalThis as unknown as { __dwDb?: Promise<Driver> };
 
+/**
+ * The database address. Vercel's Neon and Supabase integrations name it
+ * differently depending on how the store was connected (with or without a
+ * prefix), so take the first of the usual names that is set.
+ */
+export function databaseUrl(): string | undefined {
+  const env = process.env;
+  const named = env.DATABASE_URL || env.POSTGRES_URL || env.DATABASE_URL_UNPOOLED || env.POSTGRES_URL_NON_POOLING;
+  if (named) return named;
+  // A prefixed integration: e.g. STORAGE_DATABASE_URL or NEON_POSTGRES_URL.
+  const key = Object.keys(env).find((k) => /_(DATABASE_URL|POSTGRES_URL)$/.test(k) && env[k]);
+  return key ? env[key] : undefined;
+}
+
 async function connect(): Promise<Driver> {
-  const url = process.env.DATABASE_URL;
+  const url = databaseUrl();
+  // On Vercel the disk is read-only, so the local PGlite fallback can't work
+  // there: say what's missing instead of failing somewhere deeper.
+  if (!url && process.env.VERCEL) throw new Error("No database address: set DATABASE_URL in Vercel (Storage → connect Neon to this environment).");
   if (url) {
     const { default: postgres } = await import("postgres");
     // prepare: false keeps it compatible with Supabase's transaction pooler.
