@@ -26,7 +26,10 @@ export async function GET() {
     ? {
         invited: true,
         tracked,
-        joined: ["registered", "app", "member"].includes(contact.stage),
+        // Test invites (/blast → Test invites, demo links) are for showing
+        // the invitation, so they show it on every click, even after a test
+        // sign-up or app tap.
+        joined: !contact.tags?.includes("test") && ["registered", "app", "member"].includes(contact.stage),
         first: contact.first_name?.split(/\s+/)[0] ?? "",
         business: shortBusiness(contact.business_name),
         email: contact.email ?? "",
