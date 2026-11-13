@@ -16,7 +16,9 @@ jobs:
     steps:
       - name: Send + read replies
         if: github.event.schedule != '17 7 * * *'
-        run: curl -fsS -m 110 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/tick"
+        run: |
+          curl -fsS -m 110 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/tick"
       - name: Refresh NYC lists
         if: github.event.schedule == '17 7 * * *'
-        run: curl -fsS -m 290 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/sync"
+        run: |
+          curl -fsS -m 290 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/sync"
