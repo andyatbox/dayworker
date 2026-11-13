@@ -21,10 +21,11 @@ const SLICE_MS = 380;
 const STAGGER_MS = 45;
 
 /**
- * The audience hero: the same parallax frame as ParallaxImage, but cycling
- * through several shots. The incoming image is cut into vertical columns that
- * drop in alternately from top and bottom on a hard bezier — a grid-flavoured
- * wipe rather than a soft crossfade, matching the page's jolty display motion.
+ * A parallax frame (the image bleeds past it and drifts with scroll and
+ * mouse) cycling through several shots. The incoming image is cut into
+ * vertical columns that drop in alternately from top and bottom on a hard
+ * bezier — a grid-flavoured wipe rather than a soft crossfade, matching the
+ * page's jolty display motion.
  *
  * Only cycles while the frame is on screen.
  */

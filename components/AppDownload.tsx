@@ -6,48 +6,33 @@ import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { lenisRef } from "./SmoothScroll";
 import { AppleIcon, GooglePlayIcon, CloseIcon } from "./Icons";
+import { copy, type Lang } from "@/lib/copy";
+import { track } from "./join/track-client";
+import { ShortLabel } from "./Collapse";
 
 type Props = {
   big?: boolean;
   outlined?: boolean;
-  /** Drops the button's face to "Get the app", for the sticky box once it
-   *  parks and the wording has to stay short. */
-  compact?: boolean;
+  className?: string;
+  /**
+   * Names the placement (chrome, signup, contractors, invite, success) so the
+   * email dashboard can tell where a download came from, and which path it
+   * belongs to: everything but `success` is someone choosing the app over the
+   * sign-up form.
+   */
+  from: string;
+  lang?: Lang;
+  /** Folds the label to "Get the app" (the parked chrome). */
+  short?: boolean;
   /** Overrides the button's face. The QR dialog keeps the download wording
    *  regardless, since that is what the dialog is for. */
   children?: ReactNode;
 };
 
-/**
- * One word of the label, collapsing to nothing as its counterpart opens. The
- * 1fr->0fr grid track animates to the word's own width; capping a max-width
- * instead would need a magic number, and anything short of the tracked
- * uppercase text clips its trailing space and welds the words together. The
- * same trick the video button uses to drop "Dayworker".
- */
-function Word({ show, children }: { show: boolean; children: ReactNode }) {
-  return (
-    <span
-      className="inline-grid align-bottom transition-[grid-template-columns,opacity] duration-[260ms] ease-[cubic-bezier(0.85,0,0.15,1)]"
-      style={{ gridTemplateColumns: show ? "1fr" : "0fr", opacity: show ? 1 : 0 }}
-    >
-      <span className="min-w-0 overflow-hidden">{children}</span>
-    </span>
-  );
-}
-
-/**
- * Download button. On a touch device it just goes to /app, where the phone can
- * install the thing it's holding. On a pointer device that link is a dead end,
- * so it opens a QR to hand the download across to a phone instead.
- *
- * Starts in the touch state: that's the plain link, so it's what renders on the
- * server and what a client without JS keeps.
- */
-export default function AppDownload({ big, outlined, compact, children }: Props) {
-  const [open, setOpen] = useState(false);
+/** Touch devices start true: that's the plain link, so it's what renders on the
+ *  server and what a client without JS keeps. */
+export function useTouch() {
   const [touch, setTouch] = useState(true);
-
   useEffect(() => {
     const mq = window.matchMedia("(pointer: coarse)");
     const sync = () => setTouch(mq.matches);
@@ -55,6 +40,24 @@ export default function AppDownload({ big, outlined, compact, children }: Props)
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
+  return touch;
+}
+
+/**
+ * Download button. On a touch device it just goes to /app, where the phone can
+ * install the thing it's holding. On a pointer device that link is a dead end,
+ * so it opens a QR to hand the download across to a phone instead.
+ *
+ * For campaign traffic the QR is drawn per visitor (/api/qr): it carries their
+ * signed email link, so a scan on a phone that has none of this browser's
+ * cookies is still credited to the contractor the email went to. Everyone else
+ * gets the site's own QR.
+ */
+export default function AppDownload({ big, outlined, className, from, lang = "en", short = false, children }: Props) {
+  const [open, setOpen] = useState(false);
+  const [qr, setQr] = useState("/images/DW-QR.svg");
+  const touch = useTouch();
+  const t = copy[lang].cta;
 
   const close = useCallback(() => {
     setOpen(false);
@@ -70,26 +73,10 @@ export default function AppDownload({ big, outlined, compact, children }: Props)
     return () => window.removeEventListener("keydown", onKey);
   }, [open, close]);
 
-  /** Full wording, for the dialog — it has the room and the context. */
-  const label = (
+  const label = (fold: boolean) => (
     <>
       <AppleIcon />
-      <span>Download the app</span>
-      <GooglePlayIcon />
-    </>
-  );
-
-  /** The button's own face: "Download the app" tightening to "Get the app" as
-   *  the box parks. One text node, so the swapping word doesn't leave the
-   *  button's own flex gap stranded behind it. */
-  const face = (
-    <>
-      <AppleIcon />
-      <span className="whitespace-nowrap">
-        <Word show={!compact}>Download&nbsp;</Word>
-        <Word show={!!compact}>Get&nbsp;</Word>
-        the app
-      </span>
+      <ShortLabel full={t.app} short={t.appShort} hide={fold} />
       <GooglePlayIcon />
     </>
   );
@@ -97,17 +84,21 @@ export default function AppDownload({ big, outlined, compact, children }: Props)
   return (
     <>
       <Btn
-        href="/app"
+        href={`/app?from=${from}`}
         big={big}
         outlined={outlined}
+        className={className}
         onClick={(e) => {
+          if (from !== "success") track("path_select", { path: "app", from });
           if (touch) return;
           e.preventDefault();
+          if (/(?:^|;\s*)(dw_inv|dw_src)=/.test(document.cookie)) setQr(`/api/qr?from=${from}`);
           setOpen(true);
+          track("qr_open", { from });
           lenisRef.current?.stop();
         }}
       >
-        {children ?? face}
+        {children ?? label(short)}
       </Btn>
 
       {/* Portalled to the body: these buttons sit inside the tinted-blur boxes,
@@ -116,10 +107,11 @@ export default function AppDownload({ big, outlined, compact, children }: Props)
           viewport. */}
       {open && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-5"
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 p-5"
           role="dialog"
           aria-modal="true"
           aria-label="Download the Dayworker app"
+          data-layer="qr"
           data-lenis-prevent
           onClick={close}
         >
@@ -130,24 +122,24 @@ export default function AppDownload({ big, outlined, compact, children }: Props)
             <button
               type="button"
               onClick={close}
-              aria-label="Close"
+              aria-label={t.close}
               className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center bg-yellow text-black transition-colors duration-100 ease-linear hover:bg-black hover:text-yellow"
             >
               <CloseIcon className="h-4 w-4" />
             </button>
 
             <img
-              src="/images/DW-QR.svg"
+              src={qr}
               alt="QR code linking to the Dayworker app"
               className="w-[230px] max-w-full"
             />
 
-            <p className="max-w-[26ch] text-center text-base leading-relaxed">
-              Scan the QR code to download to your mobile device
+            <p className="max-w-[30ch] text-center text-base leading-relaxed">
+              {t.qr}
             </p>
 
-            <Btn href="/app" outlined>
-              {label}
+            <Btn href={`/app?from=${from}`} outlined>
+              {label(false)}
             </Btn>
           </div>
         </div>,

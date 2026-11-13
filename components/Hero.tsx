@@ -4,9 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
-import TopNav from "./TopNav";
 import StickyChrome from "./StickyChrome";
 import StickyVideo from "./StickyVideo";
+import Marquee from "./Marquee";
 import { TOP_INSET } from "./chromeLayout";
 
 /** Gumlet asset ids. The montage loops silently behind the hero; the film
@@ -16,7 +16,9 @@ const FILM_ID = "6a8b4d8ccad008e012bd14d1";
 
 /**
  * Full-viewport landing: the montage runs muted and looping underneath;
- * every piece of type sits on a solid yellow block. The big CTA opens the
+ * every piece of type sits on a solid yellow block. The trades ticker runs
+ * along the foot, inside the screen, with the tagline and video CTA sitting
+ * on top of it. The big CTA opens the
  * full Dayworker Video in a fit-to-frame overlay (never cropped, never
  * letterboxed — the frame itself takes the video's aspect).
  */
@@ -65,11 +67,12 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative h-[var(--app-vh,100svh)] min-h-[620px] overflow-hidden bg-black"
+      className="relative flex h-[var(--app-vh,100svh)] min-h-[600px] flex-col overflow-hidden bg-black md:min-h-[660px]"
     >
       {/* Montage, hosted on Gumlet. An iframe can't be object-fit: cover, so the
           16:9 frame is sized to overflow whichever axis is short and then
-          centred — the same result, cropping rather than letterboxing.
+          centred — the same result, cropping rather than letterboxing. Runs
+          the full height, under the ticker too, which is see-through.
           Non-interactive so clicks fall through to the page. */}
       <iframe
         title="Dayworker montage"
@@ -85,30 +88,31 @@ export default function Hero() {
         }}
       />
 
-      {/* Top chrome. The strip is pinned for the life of the page; the boxes
-          below start here in the hero's flow and ride up to meet it. No flex
-          gap — TopNav's holder carries START_GAP itself, so the spacing
-          collapses along with the strip below 900px. */}
-      <div
-        className="relative z-40 flex flex-col items-end px-5 md:px-10"
-        style={{ paddingTop: TOP_INSET }}
-      >
-        <TopNav />
-        <StickyChrome />
-      </div>
-
-      <div className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-2 md:px-10 md:pb-14">
-        <div>
-          <LogoSwap />
-          <h1 className="display tagline max-w-[13ch] text-[clamp(2.6rem,6vw,6rem)]">
-            <span className="blocked">The blue-collar</span>
-            <br />
-            <span className="blocked">pro network.</span>
-          </h1>
+      <div className="relative min-h-0 flex-1">
+        {/* Top chrome: the CTA boxes start here in the hero's flow and ride
+            up to park at the top of the page for the rest of it. */}
+        <div
+          className="relative z-40 flex flex-col items-end px-5 md:px-10"
+          style={{ paddingTop: TOP_INSET }}
+        >
+          <StickyChrome />
         </div>
 
-        <StickyVideo onClick={show} />
+        <div className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-2 md:px-10 md:pb-14">
+          <div>
+            <LogoSwap />
+            <h1 className="display tagline max-w-[13ch] text-[clamp(2.6rem,6vw,6rem)]">
+              <span className="blocked">The blue-collar</span>
+              <br />
+              <span className="blocked">pro network.</span>
+            </h1>
+          </div>
+
+          <StickyVideo onClick={show} />
+        </div>
       </div>
+
+      <Marquee />
 
       {open && (
         <div

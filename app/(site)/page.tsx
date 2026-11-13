@@ -1,10 +1,9 @@
 import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
 import Intro from "@/components/Intro";
 import Features from "@/components/Features";
-import { Contractors } from "@/components/Audiences";
 import AppCTA from "@/components/AppCTA";
 import Footer from "@/components/Footer";
+import JoinLayer from "@/components/join/JoinLayer";
 
 export default function Home() {
   return (
@@ -14,12 +13,11 @@ export default function Home() {
     // `visible`, creating no scroll container, and leaves the fixed mark alone.
     <main className="overflow-x-clip">
       <Hero />
-      <Marquee />
       <Intro />
       <Features />
-      <Contractors />
       <AppCTA />
       <Footer />
+      <JoinLayer />
     </main>
   );
 }

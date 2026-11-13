@@ -4,26 +4,37 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import AppDownload from "./AppDownload";
+import SignupButton from "./join/SignupButton";
 import { SHOW_ACCOUNT_CTA } from "./featureFlags";
-import { APP_BOX_H, CHROME_H, chromeRestTop } from "./chromeLayout";
+import { CHROME_CLASS, SLAB_CLASS, chromeRestTop } from "./chromeLayout";
+import { useParked } from "./useParked";
 
 /** Tinted-blur slab, matching the hero's video CTA. */
 const BOX =
   "flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md";
 
 /**
- * App and account boxes. They start in the hero's flow, a gap below the jump-to
- * strip, and ride up with it until they park flush against the strip's bottom
- * edge — sharing its stroke, so the column reads as one piece, the label
- * tightening to "Get the app" as it lands. Sticky behaviour
- * driven manually, the same way LogoSwap works, because a real `position:
- * sticky` would stop holding once the hero scrolled past.
+ * Phones get the house small button inside the compact slab, and the app
+ * button drops its store marks so its label still fits beside the mark.
+ */
+const SM_BTN = "max-sm:gap-2 max-sm:px-4 max-sm:py-2.5 max-sm:text-[10px] max-sm:tracking-[0.12em]";
+
+/**
+ * The ways in, stacked: get the app & sign up, and sign up now beneath it (the
+ * form, so mouse-and-keyboard devices only; a phone is better off in the app).
+ * They start in the hero's flow at the top of the page and ride up with it
+ * until they park at PARK_TOP, level with the mark; the video box below shares
+ * their bottom stroke, so the column reads as one piece. Each slab is as wide
+ * as its own label, right-aligned; once parked, the labels shorten and the
+ * slabs with them.
+ * Sticky behaviour driven manually, the same way LogoSwap works, because a
+ * real `position: sticky` would stop holding once the hero scrolled past.
  */
 export default function StickyChrome() {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
-  const [parked, setParked] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const parked = useParked();
 
   useEffect(() => setMounted(true), []);
 
@@ -34,14 +45,10 @@ export default function StickyChrome() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        // Read each frame: the strip is measured, not assumed, and it goes
-        // away below 900px.
         const rest = chromeRestTop();
         b.style.top = `${Math.max(rest, r.top)}px`;
         // Right-aligned to the holder; clientWidth excludes any scrollbar.
         b.style.right = `${document.documentElement.clientWidth - r.right}px`;
-        const next = r.top <= rest;
-        setParked((p) => (p === next ? p : next));
       }
       raf = requestAnimationFrame(tick);
     };
@@ -51,11 +58,15 @@ export default function StickyChrome() {
 
   const chrome = (
     <div ref={box} className="fixed z-[60] flex flex-col items-end">
-      <div className={BOX} style={{ height: APP_BOX_H }}>
-        <AppDownload compact={parked} />
+      <div className={`${BOX} ${SLAB_CLASS}`}>
+        <AppDownload from="chrome" short={parked} className={`${SM_BTN} max-sm:[&>svg]:hidden`} />
       </div>
 
-      {/* Pulled up by one border width so the two boxes share a single stroke. */}
+      {/* Pulled up by one border width so the boxes share a single stroke. */}
+      <div className={`${BOX} ${SLAB_CLASS} -mt-[3px] touch:hidden`}>
+        <SignupButton from="chrome" short={parked} className={SM_BTN} />
+      </div>
+
       {SHOW_ACCOUNT_CTA && (
         <div className={`${BOX} -mt-[3px] h-[58px]`}>
           <Btn href="#signup" small>
@@ -70,7 +81,7 @@ export default function StickyChrome() {
   );
 
   return (
-    <div ref={holder} className="w-full" style={{ height: CHROME_H }}>
+    <div ref={holder} className={`w-full ${CHROME_CLASS}`}>
       {mounted && createPortal(chrome, document.body)}
     </div>
   );

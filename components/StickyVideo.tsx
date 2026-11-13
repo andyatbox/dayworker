@@ -4,15 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Btn from "./Btn";
 import { PlayIcon } from "./Icons";
-import { APP_BOX_H, videoRestTop } from "./chromeLayout";
-
-/** Slab height, matching the app box above it. */
-const BOX_H = APP_BOX_H;
+import Collapse from "./Collapse";
+import { SLAB_CLASS, parkedStore, videoRestTop } from "./chromeLayout";
+import { useParked } from "./useParked";
 
 /**
  * The hero's video CTA. It starts down beside the tagline and rides up with the
  * page until it parks beneath the chrome above it, dropping "Dayworker" from
- * the label as it lands so the parked button stays compact.
+ * the label as it lands so the parked button stays compact. Being the last
+ * slab to park, it's the one that says when the whole column has (parkedStore),
+ * which folds the labels above it too.
  *
  * Clamped by hand rather than with `position: sticky`, which would stop holding
  * the moment the hero scrolled past — the same reason LogoSwap and StickyChrome
@@ -21,7 +22,7 @@ const BOX_H = APP_BOX_H;
 export default function StickyVideo({ onClick }: { onClick: () => void }) {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
-  const [parked, setParked] = useState(false);
+  const parked = useParked();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -38,10 +39,9 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
         const rest = videoRestTop();
         b.style.top = `${Math.max(rest, r.top)}px`;
         // Right-anchored to the holder, which spans its grid column, so the
-        // button stays flush with the chrome above whatever its width.
+        // button stays flush with the chrome above. Its width is its label's.
         b.style.right = `${document.documentElement.clientWidth - r.right}px`;
-        const next = r.top <= rest;
-        setParked((p) => (p === next ? p : next));
+        parkedStore.set(r.top <= rest);
       }
       raf = requestAnimationFrame(tick);
     };
@@ -52,26 +52,15 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
   const button = (
     <div
       ref={box}
-      className="fixed z-[60] flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md"
-      style={{ height: BOX_H }}
+      className={`fixed z-[60] flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md ${SLAB_CLASS}`}
     >
-      <Btn onClick={onClick} className="attention">
+      <Btn
+        onClick={onClick}
+        className="max-sm:gap-2 max-sm:px-4 max-sm:py-2.5 max-sm:text-[10px] max-sm:tracking-[0.12em]"
+      >
         <PlayIcon className="h-[1.1em] w-[1.1em]" />
-        {/* One text node, so the collapsing word doesn't leave the button's
-            own flex gap behind it. The 1fr->0fr grid track animates to the
-            word's own width — capping a max-width instead would need a
-            magic number, and anything short of the tracked uppercase text
-            clips its trailing space, welding the two words together. */}
         <span className="whitespace-nowrap">
-          <span
-            className="inline-grid align-bottom transition-[grid-template-columns,opacity] duration-[260ms] ease-[cubic-bezier(0.85,0,0.15,1)]"
-            style={{
-              gridTemplateColumns: parked ? "0fr" : "1fr",
-              opacity: parked ? 0 : 1,
-            }}
-          >
-            <span className="min-w-0 overflow-hidden">Dayworker&nbsp;</span>
-          </span>
+          <Collapse hide={parked}>Dayworker&nbsp;</Collapse>
           Video
         </span>
       </Btn>
@@ -79,7 +68,7 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
   );
 
   return (
-    <div ref={holder} className="w-full" style={{ height: BOX_H }}>
+    <div ref={holder} className={`w-full ${SLAB_CLASS}`}>
       {mounted && createPortal(button, document.body)}
     </div>
   );

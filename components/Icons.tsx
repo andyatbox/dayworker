@@ -54,6 +54,14 @@ export function CloseIcon({ className = "h-[1em] w-[1em]" }: { className?: strin
   );
 }
 
+export function PlusIcon({ className = "h-[1em] w-[1em]" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={className} aria-hidden="true">
+      <path d="M12 3v18M3 12h18" />
+    </svg>
+  );
+}
+
 export function ArrowIcon({ className = "h-[1em] w-[1em]" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={className} aria-hidden="true">

@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Email campaigns (/blast): Node-only packages (WASM Postgres, SMTP, IMAP)
+  // stay out of the bundle, and list imports (FOIL / OPRA spreadsheets) run to
+  // several MB.
+  serverExternalPackages: ["@electric-sql/pglite", "nodemailer", "imapflow", "postgres"],
+  experimental: { serverActions: { bodySizeLimit: "25mb" } },
   async rewrites() {
     return [
       { "source": "/user/:path*", "destination": "/job-landing.html" },

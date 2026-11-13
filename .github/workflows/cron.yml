@@ -1,0 +1,22 @@
+# Free scheduler for the sender. GitHub runs this every 15 minutes (it can
+# drift a few minutes, which only helps the sends look human). Add two repo
+# secrets: SITE_URL (https://www.dayworker.co) and CRON_SECRET, then the repo
+# variable BLAST_CRON=on. Until that variable is set every run is skipped, so
+# nothing fails and no minutes are used while the mailboxes are being set up.
+name: campaign-cron
+on:
+  schedule:
+    - cron: "*/15 12-22 * * 1-5"   # weekdays, 8am–6pm New York (UTC-4/5)
+    - cron: "17 7 * * *"           # nightly list refresh
+  workflow_dispatch:
+jobs:
+  tick:
+    if: vars.BLAST_CRON == 'on'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send + read replies
+        if: github.event.schedule != '17 7 * * *'
+        run: curl -fsS -m 110 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/tick"
+      - name: Refresh NYC lists
+        if: github.event.schedule == '17 7 * * *'
+        run: curl -fsS -m 290 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ secrets.SITE_URL }}/api/cron/sync"

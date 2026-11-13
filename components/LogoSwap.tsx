@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { NAV_REST } from "./chromeLayout";
+import { PARK_TOP } from "./chromeLayout";
 
 /**
  * The mark: a white, black-stroked box that loops between the round logo and
@@ -24,9 +24,9 @@ const BOX_H = 95;
 const SM_NARROW = 92;
 const SM_BOX_H = 85;
 
-/** The strip's own resting inset, so the mark stays level with it across the
- *  top of the page. */
-const REST_TOP = NAV_REST;
+/** Where the CTA column parks, so the mark stays level with it across the top
+ *  of the page. */
+const REST_TOP = PARK_TOP;
 const HOLD_MS = 6000;
 
 export default function LogoSwap() {
@@ -73,7 +73,7 @@ export default function LogoSwap() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
-        // Pins level with the jump-to strip, at the header's own top inset.
+        // Pins level with the parked CTA column across the top.
         b.style.top = `${Math.max(REST_TOP, r.top)}px`;
         b.style.left = `${r.left}px`;
       }

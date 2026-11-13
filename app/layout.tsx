@@ -2,13 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import ViewportHeight from "@/components/ViewportHeight";
-import ServiceWorker from "@/components/ServiceWorker";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "800"],
+  // 600 is for the sign-up form's labels and notes.
+  weight: ["400", "600", "800"],
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -60,12 +58,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${montserrat.variable} ${noe.variable}`}>
-      <body>
-        <SmoothScroll />
-        <ViewportHeight />
-        <ServiceWorker />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
