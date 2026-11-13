@@ -185,7 +185,7 @@ export default function JoinForm({
     <form onSubmit={submit} onInput={onFirstInput} onFocus={onFirstInput} onClick={onFirstInput} noValidate className="flex flex-col gap-5">
       {/* Role */}
       <div>
-        <span id="role-label" className={label}>{f.roleLabel}</span>
+        <h3 id="role-label" className="mb-3 text-xl font-extrabold leading-tight tracking-[0.02em] md:text-2xl">{f.roleLabel}</h3>
         <div className="grid grid-cols-2 border-[3px] border-black" role="radiogroup" aria-labelledby="role-label">
         {(["contractor", "worker"] as Role[]).map((r) => (
           <button
