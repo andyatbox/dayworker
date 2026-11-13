@@ -4,8 +4,8 @@
  * English and Spanish; Spanish follows the contact's language. The site itself
  * stays as it is.
  *
- * The Founding Member offer has no fixed date yet, so none is promised: it
- * says early 2027, date to be announced. Swap in the real date once it's set.
+ * The Founding Member offer: connecting with workers is free until March of
+ * 2027, then a monthly subscription; Founding Members get 3 extra free months.
  */
 export type Lang = "en" | "es";
 
@@ -58,7 +58,7 @@ export const copy = {
       // Only hiring contractors will pay (to message workers); workers never do.
       subContractor: "Takes only a minute. Then log in to the app with this email and password to post jobs.",
       offerContractor:
-        "Post jobs and connect with workers for free, for a limited time. As a Founding Member, you'll get 3 free months of worker connections once memberships are required to message workers (early 2027, date TBD).",
+        "Post jobs and connect with workers for free until March of 2027. As a Founding Member, you'll receive 3 additional free months.",
       subWorker:
         "Dayworker is free to workers for life. Signing up takes only a minute. When finished, log in to the app with this email and password, build your profile, and apply to jobs.",
     },
@@ -145,7 +145,7 @@ export const copy = {
       title: "Únase a Dayworker.",
       subContractor: "Toma solo un minuto. Después entre a la app con este correo y contraseña para publicar trabajos.",
       offerContractor:
-        "Publique trabajos y conecte con trabajadores gratis, por tiempo limitado. Como Miembro Fundador, recibirá 3 meses gratis de conexiones con trabajadores cuando se requiera una membresía para enviar mensajes a trabajadores (a principios de 2027, fecha por confirmar).",
+        "Publique trabajos y conecte con trabajadores gratis hasta marzo de 2027. Como Miembro Fundador, recibirá 3 meses gratis adicionales.",
       subWorker:
         "Dayworker es gratis para los trabajadores, de por vida. Registrarse toma solo un minuto. Al terminar, entre a la app con este correo y contraseña, cree su perfil y postúlese a trabajos.",
     },

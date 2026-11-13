@@ -15,13 +15,13 @@ export async function makeTestInvite(p: TestPerson) {
   const email = normEmail(p.email);
   if (!email) return undefined;
   const lang = p.lang === "es" ? "es" : "en";
-  const campaign =
-    (await one<{ id: number }>(`select id from campaigns where code = $1`, [TEST_CODE])) ??
-    (await one<{ id: number }>(
-      `insert into campaigns (name, code, status, design, steps) values ('Test invites', $1, 'draft', 'branded', $2::jsonb)
-       on conflict (code) do update set name = excluded.name returning id`,
-      [TEST_CODE, pgJson(BRANDED_STEPS)],
-    ));
+  // Kept on the current invitation email, so a copy change reaches test
+  // invites too.
+  const campaign = await one<{ id: number }>(
+    `insert into campaigns (name, code, status, design, steps) values ('Test invites', $1, 'draft', 'branded', $2::jsonb)
+     on conflict (code) do update set steps = excluded.steps returning id`,
+    [TEST_CODE, pgJson(BRANDED_STEPS)],
+  );
   const contact = await one<{ id: number }>(
     `insert into contacts (email, first_name, last_name, business_name, lang, source, tags)
      values ($1, $2, $3, $4, $5, 'test', '{test}')

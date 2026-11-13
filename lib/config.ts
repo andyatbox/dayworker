@@ -9,10 +9,10 @@ export const config = {
   siteUrl: process.env.SITE_URL ?? (dev ? "http://localhost:3010" : "https://www.dayworker.co"),
 
   /*
-   * The Founding Member offer has no date yet ("early 2027, date TBD"), so the
-   * copy and emails promise none. When the real date is set, put it in the
-   * copy (lib/copy.ts) and the email sequence; never a made-up deadline, which
-   * is a deceptive practice under FTC rules.
+   * The Founding Member offer's date (March 2027) lives in the copy
+   * (lib/copy.ts), the footer note and the email sequence (lib/campaigns.ts).
+   * If it moves, change all of them; never a made-up deadline, which is a
+   * deceptive practice under FTC rules.
    */
 
   /**

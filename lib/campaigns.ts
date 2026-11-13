@@ -52,7 +52,7 @@ export const STARTER_STEPS: Step[] = [
 
 I'm {{sender_first}} with Dayworker — we built an app where contractors find skilled local workers and message them directly. No staffing agency, no hiring fees.
 
-I'd like to personally invite {{business_name|you}} to join as a Founding Member. Posting jobs and connecting with workers is free for a limited time. Once memberships are required to message workers (early 2027, date TBD), Founding Members get 3 free months of worker connections. I'm only sending this to licensed contractors in the area.
+I'd like to personally invite {{business_name|you}} to join as a Founding Member. Posting jobs and connecting with workers is free until March of 2027, and Founding Members receive 3 additional free months. I'm only sending this to licensed contractors in the area.
 
 Want me to send over your invite? Just reply "yes".`,
     subject_es: "trabajadores para {{business_name|su próximo trabajo}}",
@@ -60,7 +60,7 @@ Want me to send over your invite? Just reply "yes".`,
 
 Soy {{sender_first}} de Dayworker. Creamos una app donde los contratistas encuentran trabajadores calificados de su zona y les escriben directamente. Sin agencias, sin comisiones.
 
-Quiero invitar personalmente a {{business_name|su empresa}} a unirse como Miembro Fundador. Publicar trabajos y conectar con trabajadores es gratis por tiempo limitado. Cuando se requiera una membresía para enviar mensajes a trabajadores (a principios de 2027, fecha por confirmar), los Miembros Fundadores recibirán 3 meses gratis de conexiones con trabajadores. Solo lo estoy enviando a contratistas con licencia de la zona.
+Quiero invitar personalmente a {{business_name|su empresa}} a unirse como Miembro Fundador. Publicar trabajos y conectar con trabajadores es gratis hasta marzo de 2027, y los Miembros Fundadores reciben 3 meses gratis adicionales. Solo lo estoy enviando a contratistas con licencia de la zona.
 
 ¿Le mando su invitación? Responda "sí".`,
   },
@@ -86,7 +86,7 @@ Publica un trabajo, los trabajadores cerca de su obra se postulan, les escribe y
   {
     delay_days: 5,
     subject: "",
-    body: `Last note from me. Starting in early 2027 (date TBD), contractors will need a membership to message workers on Dayworker. Founding Members who join before then get 3 free months of worker connections once memberships are required.
+    body: `Last note from me. Starting in March of 2027, contractors will need a monthly subscription to message workers on Dayworker. Founding Members who join before then receive 3 additional free months.
 
 If last-minute help or no-shows are ever a headache, this is the fix:
 {{invite_link}}
@@ -95,7 +95,7 @@ If it's not a fit, no worries — I won't follow up again.
 
 {{sender_first}}`,
     subject_es: "",
-    body_es: `Última nota de mi parte. A partir de principios de 2027 (fecha por confirmar), los contratistas necesitarán una membresía para enviar mensajes a trabajadores en Dayworker. Los Miembros Fundadores que se unan antes recibirán 3 meses gratis de conexiones con trabajadores cuando se requiera la membresía.
+    body_es: `Última nota de mi parte. A partir de marzo de 2027, los contratistas necesitarán una suscripción mensual para enviar mensajes a trabajadores en Dayworker. Los Miembros Fundadores que se unan antes reciben 3 meses gratis adicionales.
 
 Si alguna vez le falta gente a última hora, esta es la solución:
 {{invite_link}}
@@ -118,7 +118,7 @@ export const BRANDED_STEPS: Step[] = [
 
 I'm {{sender_first}} with Dayworker, the blue-collar pro network. Contractors use it to find skilled local workers and message them directly. No staffing agency, no hiring fees.
 
-I'd like to personally invite {{business_name|you}} to join as a Founding Member. Posting jobs and connecting with workers is free for a limited time. Once memberships are required to message workers (early 2027, date TBD), Founding Members get 3 free months of worker connections.
+I'd like to personally invite {{business_name|you}} to join as a Founding Member. Posting jobs and connecting with workers is free until March of 2027, and Founding Members receive 3 additional free months.
 
 [Accept invitation at dayworker.co]({{invite_link}})
 
@@ -130,7 +130,7 @@ Rather do it from your phone? Download the app and sign up there.
 
 Soy {{sender_first}} de Dayworker, la red de profesionales de oficio. Los contratistas la usan para encontrar trabajadores calificados de su zona y escribirles directamente. Sin agencias, sin comisiones.
 
-Quiero invitar personalmente a {{business_name|su empresa}} a unirse como Miembro Fundador. Publicar trabajos y conectar con trabajadores es gratis por tiempo limitado. Cuando se requiera una membresía para enviar mensajes a trabajadores (a principios de 2027, fecha por confirmar), los Miembros Fundadores recibirán 3 meses gratis de conexiones con trabajadores.
+Quiero invitar personalmente a {{business_name|su empresa}} a unirse como Miembro Fundador. Publicar trabajos y conectar con trabajadores es gratis hasta marzo de 2027, y los Miembros Fundadores reciben 3 meses gratis adicionales.
 
 [Aceptar invitación en dayworker.co]({{invite_link}})
 
