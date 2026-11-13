@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { q, one, pgJson } from "@/lib/db";
+import { q } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin";
 import { config } from "@/lib/config";
-import { BRANDED_STEPS } from "@/lib/campaigns";
-import { normEmail, token } from "@/lib/util";
+import { normEmail } from "@/lib/util";
+import { makeTestInvite } from "@/lib/testInvite";
 import { Card, PageTitle, Table, Warning, btn, input, label, when } from "@/components/blast/ui";
 
 /**
@@ -16,8 +16,6 @@ import { Card, PageTitle, Table, Warning, btn, input, label, when } from "@/comp
  * set active. You send it yourself: copy the personal link into an email, or
  * download the ready-made email and send it from your own mail app.
  */
-const TEST_CODE = "test-invites";
-
 export default async function TestInvites({ searchParams }: { searchParams: Promise<{ made?: string; from?: string }> }) {
   const { made, from } = await searchParams;
   const tests = await q<{ id: number; campaign_id: number; token: string; email: string; first_name: string | null; business_name: string | null; stage: string; created_at: string }>(
@@ -37,28 +35,7 @@ export default async function TestInvites({ searchParams }: { searchParams: Prom
     if (!email) redirect("/blast/test");
     const lang = v("lang") === "es" ? "es" : "en";
 
-    // The built-in branded invitation, as a draft campaign that never sends.
-    const campaign =
-      (await one<{ id: number }>(`select id from campaigns where code = $1`, [TEST_CODE])) ??
-      (await one<{ id: number }>(
-        `insert into campaigns (name, code, status, design, steps) values ('Test invites', $1, 'draft', 'branded', $2::jsonb) returning id`,
-        [TEST_CODE, pgJson(BRANDED_STEPS)],
-      ));
-    const contact = await one<{ id: number }>(
-      `insert into contacts (email, first_name, last_name, business_name, lang, source, tags)
-       values ($1, $2, $3, $4, $5, 'test', '{test}')
-       on conflict (email) do update set first_name = excluded.first_name, last_name = excluded.last_name,
-         business_name = excluded.business_name, lang = excluded.lang,
-         tags = (select array(select distinct unnest(contacts.tags || '{test}'))), updated_at = now()
-       returning id`,
-      [email, v("first") || null, v("last") || null, v("business") || null, lang],
-    );
-    const send = await one<{ id: number }>(
-      `insert into sends (campaign_id, contact_id, step, token, status) values ($1, $2, 0, $3, 'test')
-       on conflict (campaign_id, contact_id, step) do update set status = 'test'
-       returning id`,
-      [campaign!.id, contact!.id, token()],
-    );
+    const send = await makeTestInvite({ first: v("first"), last: v("last"), business: v("business"), email, lang });
     const sender = v("sender");
     redirect(`/blast/test?made=${send!.id}${sender ? `&from=${encodeURIComponent(sender)}` : ""}`);
   }

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { one, q } from "@/lib/db";
 import { ATT, INV, VID, YEAR, advanceStage, recordEvent, signedSendCookie } from "@/lib/track";
 import { token as newToken } from "@/lib/util";
+import { makeTestInvite, readDemoToken } from "@/lib/testInvite";
 
 /**
  * Every link in a campaign email is /i/<send token>. The click is logged,
@@ -21,7 +22,13 @@ import { token as newToken } from "@/lib/util";
 const SCANNER = /bot|crawl|spider|preview|scan|proofpoint|mimecast|barracuda|safelinks|python|curl|go-http|java\/|headless/i;
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
-  const { token } = await params;
+  let { token } = await params;
+  // A demo link: save it as a test invite, then carry on as its real send.
+  const demo = readDemoToken(token);
+  if (demo) {
+    const made = await makeTestInvite(demo);
+    if (made) token = made.token;
+  }
   const s = await one<{ id: number; contact_id: number; campaign_id: number; code: string; lang: string }>(
     `select s.id, s.contact_id, s.campaign_id, c.code, ct.lang
      from sends s join campaigns c on c.id = s.campaign_id join contacts ct on ct.id = s.contact_id
