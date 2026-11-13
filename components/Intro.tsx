@@ -14,7 +14,7 @@ export default function Intro() {
   return (
     <section id="about" className="bg-yellow px-5 py-28 md:px-10 md:py-44">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-        <Reveal dir="right" className="lg:col-span-3">
+        <Reveal dir="right" className="lg:col-span-4">
           <p className="mt-[15px] text-xs font-extrabold uppercase tracking-[0.3em]">
             <span className="bg-black px-2 py-1 text-white">A revolution</span>
           </p>
@@ -24,11 +24,11 @@ export default function Intro() {
             src="/images/appillo-hero.png"
             alt=""
             aria-hidden="true"
-            className="mt-10 hidden w-full max-w-[420px] lg:block"
+            className="mt-10 hidden w-full max-w-[560px] lg:block"
           />
         </Reveal>
 
-        <div className="lg:col-span-9">
+        <div className="lg:col-span-8">
           {/* In the page's h1 face (the display serif). An h2 in the markup:
               the hero's tagline stays the page's one h1. */}
           <Reveal dir="up">
