@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  // 600 is for the sign-up form's labels and notes.
-  weight: ["400", "600", "800"],
+// Montserrat, Latin, one variable file for every weight we use (400 body,
+// 600 form labels, 800 headings). Served from the site rather than fetched
+// from Google at build time: Google now gives font addresses Next.js's loader
+// can't read, which failed the Vercel build.
+const montserrat = localFont({
+  src: [{ path: "../public/fonts/Montserrat-Variable-latin.woff2", weight: "400 800", style: "normal" }],
   variable: "--font-montserrat",
   display: "swap",
 });
