@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { copy, TRADES } from "@/lib/copy";
 import { lenisRef } from "../SmoothScroll";
 import { CloseIcon } from "../Icons";
-import JoinForm from "./JoinForm";
+import JoinForm, { type Role } from "./JoinForm";
 import { SIGNUP_EVENT, qrOpen, useInvite } from "./invite";
 import { track } from "./track-client";
 
@@ -23,6 +23,8 @@ export default function SignupPanel() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
+  // The role picked in the form; until then, the one the visit arrived with.
+  const [picked, setPicked] = useState<Role | null>(null);
   const panel = useRef<HTMLElement>(null);
 
   const show = useCallback((from: string) => {
@@ -61,6 +63,7 @@ export default function SignupPanel() {
   if (!mounted) return null;
   const lang = invite?.lang ?? "en";
   const t = copy[lang];
+  const role = picked ?? invite?.role ?? "contractor";
 
   return createPortal(
     <div
@@ -96,10 +99,13 @@ export default function SignupPanel() {
           {!done && (
             <div>
               <h2 className="display text-[clamp(2.2rem,5vw,3.6rem)]">{t.signup.title}</h2>
-              <p className="mt-4 text-base leading-relaxed md:text-lg">{t.signup.sub}</p>
-              {invite?.invited && (
+              <p className="mt-4 text-base leading-relaxed md:text-lg">
+                {role === "contractor" ? t.signup.subContractor : t.signup.subWorker}
+              </p>
+              {/* Workers never pay, so the Founding Member offer is for hiring contractors only. */}
+              {role === "contractor" && (
                 <p className="mt-5 border-[3px] border-black bg-yellow px-4 py-3 text-sm font-extrabold leading-relaxed">
-                  {t.signup.founding}
+                  {t.signup.offerContractor}
                 </p>
               )}
             </div>
@@ -110,7 +116,7 @@ export default function SignupPanel() {
             <JoinForm
               key={invite.visit || "visitor"}
               lang={lang}
-              founding={invite.invited}
+              onRole={setPicked}
               defaults={{
                 role: invite.role,
                 name: invite.first,

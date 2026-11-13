@@ -7,7 +7,7 @@ import AppDownload from "../AppDownload";
 import { ArrowIcon } from "../Icons";
 import { track } from "./track-client";
 
-type Role = "contractor" | "worker";
+export type Role = "contractor" | "worker";
 
 export type JoinDefaults = {
   role: Role;
@@ -26,18 +26,17 @@ export type JoinDefaults = {
  * The password goes to Firebase only. Our own server then gets a copy of the
  * rest (/api/register) for campaign attribution and crew-invite links; if that
  * fails, the account still stands.
- *
- * `founding` is for people who arrived from their invitation email.
  */
 export default function JoinForm({
   lang,
   defaults,
-  founding,
+  onRole,
   onDone,
 }: {
   lang: Lang;
   defaults: JoinDefaults;
-  founding: boolean;
+  /** Tells the panel which role is picked, so its intro text matches. */
+  onRole?: (role: Role) => void;
   onDone?: () => void;
 }) {
   const t = copy[lang];
@@ -175,7 +174,8 @@ export default function JoinForm({
     // Opens the sign-up panel for the worker who follows it, credited to
     // this person when our copy of the sign-up was saved.
     const shareUrl = `${location.origin}/?${done.refCode ? `ref=${done.refCode}` : "signup"}&role=worker${lang === "es" ? "&lang=es" : ""}`;
-    return <Success lang={lang} done={done} role={role} founding={founding} shareUrl={shareUrl} s={s} />;
+    // Every hiring contractor who signs up now is a Founding Member (the panel says so).
+    return <Success lang={lang} done={done} role={role} founding={role === "contractor"} shareUrl={shareUrl} s={s} />;
   }
 
   const label = "mb-2 block text-[11px] font-extrabold uppercase tracking-[0.16em]";
@@ -184,7 +184,9 @@ export default function JoinForm({
     // Fields arrive prefilled from the email, so a tap or focus counts as starting, not just typing.
     <form onSubmit={submit} onInput={onFirstInput} onFocus={onFirstInput} onClick={onFirstInput} noValidate className="flex flex-col gap-5">
       {/* Role */}
-      <div className="grid grid-cols-2 border-[3px] border-black" role="radiogroup">
+      <div>
+        <span id="role-label" className={label}>{f.roleLabel}</span>
+        <div className="grid grid-cols-2 border-[3px] border-black" role="radiogroup" aria-labelledby="role-label">
         {(["contractor", "worker"] as Role[]).map((r) => (
           <button
             key={r}
@@ -193,6 +195,7 @@ export default function JoinForm({
             aria-checked={role === r}
             onClick={() => {
               setRole(r);
+              onRole?.(r);
               track("role_select", { role: r });
             }}
             className={`px-3 py-4 text-xs font-extrabold uppercase tracking-[0.12em] transition-colors duration-100 md:text-sm ${
@@ -202,6 +205,7 @@ export default function JoinForm({
             {r === "contractor" ? f.roleContractor : f.roleWorker}
           </button>
         ))}
+      </div>
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">

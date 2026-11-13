@@ -55,8 +55,12 @@ export const copy = {
     signup: {
       eyebrow: "Sign up",
       title: "Join Dayworker.",
-      sub: "Takes about a minute. Then log in to the app with this email and password to post jobs or apply.",
-      founding: "You're signing up as a Founding Member: 3 free months of worker connections after connections become a paid membership (early 2027, date TBD).",
+      // Only hiring contractors will pay (to message workers); workers never do.
+      subContractor: "Takes only a minute. Then log in to the app with this email and password to post jobs.",
+      offerContractor:
+        "Post jobs and connect with workers for free, for a limited time. As a Founding Member, you'll get 3 free months of worker connections once memberships are required to message workers (early 2027, date TBD).",
+      subWorker:
+        "Dayworker is free to workers for life. Signing up takes only a minute. When finished, log in to the app with this email and password, build your profile, and apply to jobs.",
     },
     cta: {
       app: "Get the app & sign up",
@@ -67,8 +71,9 @@ export const copy = {
       close: "Close",
     },
     form: {
-      roleContractor: "I'm hiring",
-      roleWorker: "I'm looking for work",
+      roleLabel: "I am a…",
+      roleContractor: "Hiring contractor",
+      roleWorker: "Worker",
       name: "Your name",
       business: "Business name",
       email: "Email",
@@ -138,8 +143,11 @@ export const copy = {
     signup: {
       eyebrow: "Regístrese",
       title: "Únase a Dayworker.",
-      sub: "Toma un minuto. Después entre a la app con este correo y contraseña para publicar trabajos o postularse.",
-      founding: "Se registra como Miembro Fundador: 3 meses gratis de conexiones con trabajadores cuando las conexiones pasen a ser una membresía de pago (a principios de 2027, fecha por confirmar).",
+      subContractor: "Toma solo un minuto. Después entre a la app con este correo y contraseña para publicar trabajos.",
+      offerContractor:
+        "Publique trabajos y conecte con trabajadores gratis, por tiempo limitado. Como Miembro Fundador, recibirá 3 meses gratis de conexiones con trabajadores cuando se requiera una membresía para enviar mensajes a trabajadores (a principios de 2027, fecha por confirmar).",
+      subWorker:
+        "Dayworker es gratis para los trabajadores, de por vida. Registrarse toma solo un minuto. Al terminar, entre a la app con este correo y contraseña, cree su perfil y postúlese a trabajos.",
     },
     cta: {
       app: "Descargar la app y registrarse",
@@ -150,8 +158,9 @@ export const copy = {
       close: "Cerrar",
     },
     form: {
-      roleContractor: "Busco trabajadores",
-      roleWorker: "Busco trabajo",
+      roleLabel: "Soy…",
+      roleContractor: "Contratista que contrata",
+      roleWorker: "Trabajador",
       name: "Su nombre",
       business: "Nombre de la empresa",
       email: "Correo electrónico",
