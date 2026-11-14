@@ -11,7 +11,7 @@ import { useParked } from "./useParked";
 
 /** Tinted-blur slab, matching the hero's video CTA. */
 const BOX =
-  "flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md";
+  "flex items-center gap-3 border-[2px] border-black bg-white/70 px-3 backdrop-blur-md";
 
 /**
  * Phones get the house small button inside the compact slab, and the app
@@ -63,12 +63,12 @@ export default function StickyChrome() {
       </div>
 
       {/* Pulled up by one border width so the boxes share a single stroke. */}
-      <div className={`${BOX} ${SLAB_CLASS} -mt-[3px] touch:hidden`}>
+      <div className={`${BOX} ${SLAB_CLASS} -mt-[2px] touch:hidden`}>
         <SignupButton from="chrome" short={parked} className={SM_BTN} />
       </div>
 
       {SHOW_ACCOUNT_CTA && (
-        <div className={`${BOX} -mt-[3px] h-[58px]`}>
+        <div className={`${BOX} -mt-[2px] h-[58px]`}>
           <Btn href="#signup" small>
             Get started
           </Btn>

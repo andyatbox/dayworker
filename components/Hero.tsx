@@ -7,12 +7,75 @@ import LogoSwap from "./LogoSwap";
 import StickyChrome from "./StickyChrome";
 import StickyVideo from "./StickyVideo";
 import Marquee from "./Marquee";
-import { TOP_INSET } from "./chromeLayout";
+import { TOP_INSET, parkedStore } from "./chromeLayout";
 
-/** Gumlet asset ids. The montage loops silently behind the hero; the film
- *  plays with controls in the overlay. */
-const MONTAGE_ID = "6a8b4d8ccad008e012bd14d4";
+/** The film plays with controls in the overlay, hosted on Gumlet. */
 const FILM_ID = "6a8b4d8ccad008e012bd14d1";
+
+/** The montage that loops silently behind the hero, hosted on Gumlet. */
+const MONTAGE_ID = "6af8962a6e19706a0b162945";
+
+const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.75rem)]";
+
+/**
+ * The tagline takes one box on one line when it fits beside the video button,
+ * and two stacked boxes otherwise. Measured rather than set by breakpoint, since
+ * it depends on the display face's real width.
+ */
+function useOneLine() {
+  const grid = useRef<HTMLDivElement>(null);
+  const measure = useRef<HTMLSpanElement>(null);
+  const slabW = useRef(290);
+  const [oneLine, setOneLine] = useState(false);
+  // How far the video button rises so its bottom edge meets the tagline's:
+  // the h1's line box runs a few pixels below the last stroked box.
+  const [lift, setLift] = useState(0);
+  const checkRef = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    const g = grid.current;
+    const m = measure.current;
+    if (!g || !m) return;
+    let watched: HTMLElement | null = null;
+    const check = () => {
+      // The video button's resting width; it shortens once parked, so only
+      // read it while it's down here beside the tagline. It mounts a moment
+      // after the hero, so start watching it as soon as it's there.
+      const slab = document.querySelector<HTMLElement>("[data-video-slab]");
+      if (slab && slab !== watched) {
+        watched = slab;
+        ro.observe(slab);
+      }
+      if (slab && !parkedStore.get()) slabW.current = slab.offsetWidth;
+      const cs = getComputedStyle(g);
+      const inner = g.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const side = window.matchMedia("(min-width: 768px)").matches;
+      setOneLine(side && m.getBoundingClientRect().width + parseFloat(cs.columnGap) + slabW.current <= inner);
+      const h1 = g.querySelector("h1");
+      const boxes = h1 ? [...h1.querySelectorAll(".blocked")].flatMap((e) => [...e.getClientRects()]) : [];
+      const last = boxes[boxes.length - 1];
+      setLift(side && h1 && last ? Math.max(0, h1.getBoundingClientRect().bottom - last.bottom) : 0);
+    };
+    checkRef.current = check;
+    const ro = new ResizeObserver(check);
+    ro.observe(g);
+    check();
+    document.fonts?.ready.then(check);
+    const late = setTimeout(check, 500);
+    return () => {
+      ro.disconnect();
+      clearTimeout(late);
+    };
+  }, []);
+
+  // The h1 is swapped when the line count changes; measure the new one.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => checkRef.current());
+    return () => cancelAnimationFrame(id);
+  }, [oneLine]);
+
+  return { grid, measure, oneLine, lift };
+}
 
 /**
  * Full-viewport landing: the montage runs muted and looping underneath;
@@ -24,6 +87,7 @@ const FILM_ID = "6a8b4d8ccad008e012bd14d1";
  */
 export default function Hero() {
   const [open, setOpen] = useState(false);
+  const { grid, measure, oneLine, lift } = useOneLine();
   const player = useRef<HTMLIFrameElement>(null);
 
   /**
@@ -69,14 +133,16 @@ export default function Hero() {
       id="top"
       className="relative flex h-[var(--app-vh,100svh)] min-h-[600px] flex-col overflow-hidden bg-black md:min-h-[660px]"
     >
-      {/* Montage, hosted on Gumlet. An iframe can't be object-fit: cover, so the
+      {/* Montage, hosted on Gumlet. start_high_res starts it at full quality
+          (Gumlet otherwise opens low and climbs slowly); it still steps down
+          if the connection can't keep up. An iframe can't be object-fit: cover, so the
           16:9 frame is sized to overflow whichever axis is short and then
           centred — the same result, cropping rather than letterboxing. Runs
           the full height, under the ticker too, which is see-through.
           Non-interactive so clicks fall through to the page. */}
       <iframe
         title="Dayworker montage"
-        src={`https://play.gumlet.io/embed/${MONTAGE_ID}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true`}
+        src={`https://play.gumlet.io/embed/${MONTAGE_ID}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true&start_high_res=true`}
         allow="autoplay; encrypted-media; picture-in-picture"
         referrerPolicy="origin"
         aria-hidden="true"
@@ -98,17 +164,32 @@ export default function Hero() {
           <StickyChrome />
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-2 md:px-10 md:pb-14">
+        <div
+          ref={grid}
+          className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-[minmax(0,1fr)_auto] md:px-10 md:pb-14"
+        >
           <div>
             <LogoSwap />
-            <h1 className="display tagline max-w-[13ch] text-[clamp(2.6rem,6vw,6rem)]">
-              <span className="blocked">The blue-collar</span>
-              <br />
-              <span className="blocked">pro network.</span>
-            </h1>
+            {oneLine ? (
+              <h1 className={`${TAGLINE} whitespace-nowrap`}>
+                <span className="blocked">The blue-collar pro network.</span>
+              </h1>
+            ) : (
+              <h1 className={`${TAGLINE} max-w-[13ch]`}>
+                <span className="blocked">The blue-collar</span>
+                <br />
+                <span className="blocked">pro network.</span>
+              </h1>
+            )}
+          </div>
+          {/* The one-line tagline, unseen, to measure whether it fits. */}
+          <div aria-hidden="true" className={`${TAGLINE} pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap`}>
+            <span ref={measure} className="blocked">The blue-collar pro network.</span>
           </div>
 
-          <StickyVideo onClick={show} />
+          <div style={{ marginBottom: lift }}>
+            <StickyVideo onClick={show} />
+          </div>
         </div>
       </div>
 
@@ -136,7 +217,7 @@ export default function Hero() {
             <iframe
               ref={player}
               title="Dayworker video"
-              src={`https://play.gumlet.io/embed/${FILM_ID}?autoplay=true&loop=false&disable_player_controls=false&captions=false&caption_language=off`}
+              src={`https://play.gumlet.io/embed/${FILM_ID}?autoplay=true&loop=false&disable_player_controls=false&captions=false&caption_language=off&start_high_res=true`}
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
               referrerPolicy="origin"
               className="h-full w-full border-none"

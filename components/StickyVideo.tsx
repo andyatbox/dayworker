@@ -52,7 +52,8 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
   const button = (
     <div
       ref={box}
-      className={`fixed z-[60] flex items-center gap-3 border-[3px] border-black bg-white/70 px-3 backdrop-blur-md ${SLAB_CLASS}`}
+      data-video-slab
+      className={`fixed z-[60] flex items-center gap-3 border-[2px] border-black bg-white/70 px-3 backdrop-blur-md ${SLAB_CLASS}`}
     >
       <Btn
         onClick={onClick}

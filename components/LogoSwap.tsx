@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { PARK_TOP } from "./chromeLayout";
+import { BORDER, PARK_TOP } from "./chromeLayout";
 
 /**
  * The mark: a white, black-stroked box that loops between the round logo and
@@ -73,8 +73,13 @@ export default function LogoSwap() {
       const b = box.current;
       if (h && b) {
         const r = h.getBoundingClientRect();
+        // Sits on the tagline's first line so the two boxes share one stroke
+        // exactly, at every text size; the holder alone lands a fraction off
+        // because the line box and the logo box round differently.
+        const line = h.nextElementSibling?.querySelector(".blocked")?.getClientRects()[0];
+        const flowTop = line ? line.top + BORDER - b.offsetHeight : r.top;
         // Pins level with the parked CTA column across the top.
-        b.style.top = `${Math.max(REST_TOP, r.top)}px`;
+        b.style.top = `${Math.max(REST_TOP, flowTop)}px`;
         b.style.left = `${r.left}px`;
       }
       raf = requestAnimationFrame(tick);
@@ -90,7 +95,7 @@ export default function LogoSwap() {
       ref={box}
       href="#top"
       aria-label="Dayworker home"
-      className="fixed z-[60] block overflow-hidden border-[3px] border-black bg-white/70 backdrop-blur-md"
+      className="fixed z-[60] block overflow-hidden border-[2px] border-black bg-white/70 backdrop-blur-md"
       style={{
         height,
         width: small ? SM_NARROW : wide ? WIDE : NARROW,

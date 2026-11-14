@@ -115,19 +115,19 @@
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   color: #000000;
-  border: 3px solid #000000;
+  border: 2px solid #000000;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   padding: 0.24em 0.3em 0.06em;
 }
 
 /* Leading tuned so each stroked line box overlaps the next by exactly one
-   border width — the stack reads as one connected assembly with uniform 3px
+   border width — the stack reads as one connected assembly with uniform 2px
    rules. The margin does the same for the mark sitting on top of it.
    (1.3em = the font's content area plus .blocked's vertical padding.) */
 .tagline {
-  line-height: calc(1.3em + 3px);
-  margin-top: calc(0.09em - 1.5px);
+  line-height: calc(1.3em + 2px);
+  margin-top: calc(0.09em - 1px);
 }
 
 /* Sign-up form fields: one hard-edged look, yellow focus ring. */
@@ -164,8 +164,8 @@
   }
 }
 .chrome-holder {
-  height: calc(var(--slab-h) * var(--slabs) - 3px * (var(--slabs) - 1));
+  height: calc(var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1));
 }
 .chrome-holder.with-account {
-  height: calc(var(--slab-h) * var(--slabs) - 3px * (var(--slabs) - 1) + 55px);
+  height: calc(var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1) + 56px);
 }

@@ -21,7 +21,7 @@ export const TOP_INSET = 30;
 export const PARK_TOP = 15;
 
 /** House keyline. Stacked boxes overlap by one so they share a single stroke. */
-export const BORDER = 3;
+export const BORDER = 2;
 
 /**
  * One slab: the app box, the sign-up box and the video box are all this tall.

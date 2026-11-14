@@ -37,13 +37,13 @@ const TRADES: [string, string][] = [
  */
 export default function Marquee() {
   return (
-    <div className="relative z-10 shrink-0 overflow-hidden border-y-[3px] border-black bg-white/85 text-black backdrop-blur-md">
+    <div className="relative z-10 shrink-0 overflow-hidden border-y-[2px] border-black bg-white/85 text-black backdrop-blur-md">
       <div className="flex w-max animate-marquee">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex items-stretch" aria-hidden={copy === 1}>
             {TRADES.map(([label, icon]) => (
               <div key={label} className="flex items-stretch">
-                <span className="w-[3px] shrink-0 self-stretch bg-black" />
+                <span className="w-[2px] shrink-0 self-stretch bg-black" />
                 <div className="flex flex-col items-center justify-center gap-2 px-5 py-2 transition-colors duration-100 ease-linear hover:bg-yellow md:px-8 md:py-3">
                   <img
                     src={`/images/DWIcon-${icon}.svg`}
