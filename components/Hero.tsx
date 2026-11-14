@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { CloseIcon } from "./Icons";
 import LogoSwap from "./LogoSwap";
@@ -12,8 +12,28 @@ import { TOP_INSET, parkedStore } from "./chromeLayout";
 /** The film plays with controls in the overlay, hosted on Gumlet. */
 const FILM_ID = "6a8b4d8ccad008e012bd14d1";
 
-/** The montage that loops silently behind the hero, hosted on Gumlet. */
-const MONTAGE_ID = "6af8962a6e19706a0b162945";
+/** The montage that loops silently behind the hero, hosted on Gumlet: a 16:9
+ *  cut for landscape screens and a 9:16 cut for portrait ones. */
+const MONTAGE = {
+  landscape: { id: "6af8962a6e19706a0b162945", ratio: 16 / 9 },
+  portrait: { id: "6af89f7b485a59fbc95926b6", ratio: 9 / 16 },
+};
+
+const PORTRAIT = "(orientation: portrait)";
+
+/** Portrait or landscape; null until known in the browser, so only one cut
+ *  ever loads. Follows the device as it's turned. */
+function useOrientation(): keyof typeof MONTAGE | null {
+  return useSyncExternalStore(
+    (f) => {
+      const mq = window.matchMedia(PORTRAIT);
+      mq.addEventListener("change", f);
+      return () => mq.removeEventListener("change", f);
+    },
+    () => (window.matchMedia(PORTRAIT).matches ? "portrait" : "landscape"),
+    () => null,
+  );
+}
 
 const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.375rem)]";
 
@@ -89,6 +109,8 @@ function useOneLine() {
 export default function Hero() {
   const [open, setOpen] = useState(false);
   const { grid, measure, oneLine, lift } = useOneLine();
+  const orientation = useOrientation();
+  const montage = orientation && MONTAGE[orientation];
   const player = useRef<HTMLIFrameElement>(null);
 
   /**
@@ -139,23 +161,26 @@ export default function Hero() {
           {/* Montage, hosted on Gumlet. start_high_res starts it at full quality
               (Gumlet otherwise opens low and climbs slowly); it still steps down
               if the connection can't keep up. An iframe can't be object-fit: cover, so the
-              16:9 frame is sized to overflow whichever axis is short and then
+              frame is sized to overflow whichever axis is short and then
               centred — the same result, cropping rather than letterboxing. Fills
               the screen above the ticker (sized in container units, so it covers
               exactly this box). Non-interactive so clicks fall through to the page. */}
-          <iframe
-            title="Dayworker montage"
-            src={`https://play.gumlet.io/embed/${MONTAGE_ID}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true&start_high_res=true`}
-            allow="autoplay; encrypted-media; picture-in-picture"
-            referrerPolicy="origin"
-            aria-hidden="true"
-            tabIndex={-1}
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
-            style={{
-              width: "max(100cqw, calc(100cqh * 16 / 9))",
-              height: "max(100cqh, calc(100cqw * 9 / 16))",
-            }}
-          />
+          {montage && (
+            <iframe
+              key={montage.id}
+              title="Dayworker montage"
+              src={`https://play.gumlet.io/embed/${montage.id}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true&start_high_res=true`}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerPolicy="origin"
+              aria-hidden="true"
+              tabIndex={-1}
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
+              style={{
+                width: `max(100cqw, calc(100cqh * ${montage.ratio}))`,
+                height: `max(100cqh, calc(100cqw / ${montage.ratio}))`,
+              }}
+            />
+          )}
         </div>
 
         {/* Top chrome: the CTA boxes start here in the hero's flow and ride

@@ -43,7 +43,7 @@ export default function Marquee() {
             {TRADES.map(([label, icon]) => (
               <div key={label} className="flex items-stretch">
                 <span className="w-[2px] shrink-0 self-stretch bg-black" />
-                <div className="flex flex-col items-center justify-center gap-2 px-5 py-1 transition-colors duration-100 ease-linear hover:bg-yellow md:px-8 md:py-1.5">
+                <div className="flex flex-col items-center justify-center gap-0.5 px-5 py-1 transition-colors duration-100 ease-linear hover:bg-yellow md:px-8 md:py-1.5">
                   <img
                     src={`/images/DWIcon-${icon}.svg`}
                     alt=""
