@@ -15,7 +15,7 @@ const FILM_ID = "6a8b4d8ccad008e012bd14d1";
 /** The montage that loops silently behind the hero, hosted on Gumlet. */
 const MONTAGE_ID = "6af8962a6e19706a0b162945";
 
-const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.75rem)]";
+const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.375rem)]";
 
 /**
  * The tagline takes one box on one line when it fits beside the video button,
@@ -27,8 +27,9 @@ function useOneLine() {
   const measure = useRef<HTMLSpanElement>(null);
   const slabW = useRef(290);
   const [oneLine, setOneLine] = useState(false);
-  // How far the video button rises so its bottom edge meets the tagline's:
-  // the h1's line box runs a few pixels below the last stroked box.
+  // The h1's line box runs a few pixels below its last stroked box; the
+  // tagline drops by that much so its box sits on the same bottom margin as
+  // the video button, the same distance from the ticker as from the sides.
   const [lift, setLift] = useState(0);
   const checkRef = useRef<() => void>(() => {});
 
@@ -133,28 +134,30 @@ export default function Hero() {
       id="top"
       className="relative flex h-[var(--app-vh,100svh)] min-h-[600px] flex-col overflow-hidden bg-black md:min-h-[660px]"
     >
-      {/* Montage, hosted on Gumlet. start_high_res starts it at full quality
-          (Gumlet otherwise opens low and climbs slowly); it still steps down
-          if the connection can't keep up. An iframe can't be object-fit: cover, so the
-          16:9 frame is sized to overflow whichever axis is short and then
-          centred — the same result, cropping rather than letterboxing. Runs
-          the full height, under the ticker too, which is see-through.
-          Non-interactive so clicks fall through to the page. */}
-      <iframe
-        title="Dayworker montage"
-        src={`https://play.gumlet.io/embed/${MONTAGE_ID}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true&start_high_res=true`}
-        allow="autoplay; encrypted-media; picture-in-picture"
-        referrerPolicy="origin"
-        aria-hidden="true"
-        tabIndex={-1}
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
-        style={{
-          width: "max(100vw, calc(var(--app-vh, 100svh) * 16 / 9))",
-          height: "max(var(--app-vh, 100svh), calc(100vw * 9 / 16))",
-        }}
-      />
-
       <div className="relative min-h-0 flex-1">
+        <div className="absolute inset-0 overflow-hidden [container-type:size]">
+          {/* Montage, hosted on Gumlet. start_high_res starts it at full quality
+              (Gumlet otherwise opens low and climbs slowly); it still steps down
+              if the connection can't keep up. An iframe can't be object-fit: cover, so the
+              16:9 frame is sized to overflow whichever axis is short and then
+              centred — the same result, cropping rather than letterboxing. Fills
+              the screen above the ticker (sized in container units, so it covers
+              exactly this box). Non-interactive so clicks fall through to the page. */}
+          <iframe
+            title="Dayworker montage"
+            src={`https://play.gumlet.io/embed/${MONTAGE_ID}?background=true&autoplay=true&loop=true&muted=true&disable_player_controls=true&start_high_res=true`}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            referrerPolicy="origin"
+            aria-hidden="true"
+            tabIndex={-1}
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
+            style={{
+              width: "max(100cqw, calc(100cqh * 16 / 9))",
+              height: "max(100cqh, calc(100cqw * 9 / 16))",
+            }}
+          />
+        </div>
+
         {/* Top chrome: the CTA boxes start here in the hero's flow and ride
             up to park at the top of the page for the rest of it. */}
         <div
@@ -166,9 +169,9 @@ export default function Hero() {
 
         <div
           ref={grid}
-          className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-10 md:grid-cols-[minmax(0,1fr)_auto] md:px-10 md:pb-14"
+          className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-5 md:grid-cols-[minmax(0,1fr)_auto] md:px-10 md:pb-10"
         >
-          <div>
+          <div style={{ marginBottom: -lift }}>
             <LogoSwap />
             {oneLine ? (
               <h1 className={`${TAGLINE} whitespace-nowrap`}>
@@ -187,9 +190,7 @@ export default function Hero() {
             <span ref={measure} className="blocked">The blue-collar pro network.</span>
           </div>
 
-          <div style={{ marginBottom: lift }}>
-            <StickyVideo onClick={show} />
-          </div>
+          <StickyVideo onClick={show} />
         </div>
       </div>
 

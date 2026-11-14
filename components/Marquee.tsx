@@ -30,21 +30,20 @@ const TRADES: [string, string][] = [
 /**
  * Ticker of trades along the foot of the hero — icon centred over its label,
  * each cell divided by a full-height black rule at the page's stroke weight.
- * Kept tight, since its height comes out of the landing screen. Tinted glass
- * like the page's other boxes, so the montage runs on behind it; a shade more
- * opaque than they are, because the footage is dark and the labels are small.
+ * Kept tight, since its height comes out of the landing screen. Solid white:
+ * the montage ends above it rather than running on behind.
  * Icons render as supplied, in full colour; don't filter them.
  */
 export default function Marquee() {
   return (
-    <div className="relative z-10 shrink-0 overflow-hidden border-y-[2px] border-black bg-white/85 text-black backdrop-blur-md">
+    <div className="relative z-10 shrink-0 overflow-hidden border-y-[2px] border-black bg-white text-black">
       <div className="flex w-max animate-marquee">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex items-stretch" aria-hidden={copy === 1}>
             {TRADES.map(([label, icon]) => (
               <div key={label} className="flex items-stretch">
                 <span className="w-[2px] shrink-0 self-stretch bg-black" />
-                <div className="flex flex-col items-center justify-center gap-2 px-5 py-2 transition-colors duration-100 ease-linear hover:bg-yellow md:px-8 md:py-3">
+                <div className="flex flex-col items-center justify-center gap-2 px-5 py-1 transition-colors duration-100 ease-linear hover:bg-yellow md:px-8 md:py-1.5">
                   <img
                     src={`/images/DWIcon-${icon}.svg`}
                     alt=""
