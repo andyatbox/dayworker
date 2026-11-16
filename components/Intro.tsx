@@ -44,12 +44,12 @@ export default function Intro() {
             </h2>
           </Reveal>
           <Reveal dir="up" delay={60}>
-            <h3 className={`mt-10 md:mt-12 ${H3}`}>
-              {t.sub}
+            <h3 className={`mt-10 md:mt-12 ${LABEL}`}>
+              <span className="bg-black px-2 py-1">{t.sub}</span>
             </h3>
           </Reveal>
           <Reveal dir="up" delay={120}>
-            <p className={`mt-5 ${BODY}`}>
+            <p className={`mt-7 ${BODY}`}>
               {t.body}
             </p>
             <p className="mt-8">
@@ -66,10 +66,11 @@ export default function Intro() {
                 {t.postsBody}
               </p>
               <p className="mt-8">
-                <strong className={STRONG}>
-                  {t.postsFree[0]}
-                  <span className="underline decoration-2 underline-offset-[5px]">{t.postsFree[1]}</span>
-                  {t.postsFree[2]}
+                <strong className={STRONG}>{t.postsNote}</strong>
+              </p>
+              <p className="mt-3">
+                <strong className={`${STRONG} underline decoration-2 underline-offset-[5px]`}>
+                  {t.postsFree}
                   <sup>†</sup>
                 </strong>
               </p>

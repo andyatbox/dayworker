@@ -31,18 +31,16 @@ const en = {
   intro: {
     eyebrow: "A revolution",
     headline: "Dayworker connects skilled on-demand workers with local jobs.",
-    sub: "Worker professional profile.",
+    sub: "Worker profile",
     body: "Dayworkers create their profile, show off skills and experience, and apply to local jobs. Interested contractors reach out privately using our live-translated messenger.",
     workersFree: "Apply to jobs for free, for life.",
     postsEyebrow: "Job posts",
     postsTitle: "Post jobs to build your crew and on-board last-minute support.",
-    postsBody: "Qualified workers apply to jobs, and get listed as applicants. Message approved workers and get the job done.",
-    /** Before the underlined part, the underlined part, after it; the † follows. */
-    postsFree: [
-      "We’re not a recruiter. No middlemen or hiring fees, ever. ",
-      "Free job postings",
-      " for a limited time!",
-    ] as [string, string, string],
+    postsBody:
+      "Qualified workers apply to your jobs, and get saved as applicants. Vet them through the messenger, and give your stamp of approval when it works.",
+    postsNote: "We’re not a recruiter. No middlemen or hiring fees, ever.",
+    /** Underlined, with the † after it. */
+    postsFree: "Free job postings for a limited time!",
   },
   features: {
     label: "Features",
@@ -143,18 +141,15 @@ const es: SiteCopy = {
   intro: {
     eyebrow: "Una revolución",
     headline: "Dayworker conecta a trabajadores calificados a demanda con trabajos locales.",
-    sub: "Perfil profesional del trabajador.",
+    sub: "Perfil del trabajador",
     body: "Los trabajadores crean su perfil, muestran sus habilidades y experiencia, y se postulan a trabajos locales. Los contratistas interesados se comunican en privado con nuestra mensajería con traducción en vivo.",
     workersFree: "Postúlese a trabajos gratis, de por vida.",
     postsEyebrow: "Publicar trabajos",
     postsTitle: "Publique trabajos para formar su cuadrilla y conseguir apoyo de último minuto.",
     postsBody:
-      "Los trabajadores calificados se postulan a los trabajos y aparecen como postulantes. Escriba a los trabajadores aprobados y saque el trabajo adelante.",
-    postsFree: [
-      "No somos una agencia de reclutamiento. Sin intermediarios ni comisiones de contratación, nunca. ¡",
-      "Publicaciones de trabajo gratis",
-      " por tiempo limitado!",
-    ],
+      "Los trabajadores calificados se postulan a sus trabajos y quedan guardados como postulantes. Evalúelos por el chat y deles su aprobación cuando le convenzan.",
+    postsNote: "No somos una agencia de reclutamiento. Sin intermediarios ni comisiones de contratación, nunca.",
+    postsFree: "¡Publicaciones de trabajo gratis por tiempo limitado!",
   },
   features: {
     label: "Funciones",
