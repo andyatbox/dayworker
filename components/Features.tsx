@@ -3,58 +3,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import Reveal from "./Reveal";
+import { useSiteCopy } from "./Lang";
 
-type Feature = { tab: string; tag: string; title: string; body: string; src: string; alt: string };
-
-const FEATURES: Feature[] = [
-  {
-    tab: "Job Search",
-    tag: "Workers",
-    title: "Job search",
-    body: "Find and apply for jobs that meet your qualifications and skill set.",
-    src: "/images/features/1-job-search.jpg",
-    alt: "Dayworker job search: a map of nearby jobs, each marked with its trade",
-  },
-  {
-    tab: "Worker Search",
-    tag: "Contractors",
-    title: "Worker search",
-    body: "Find skilled workers, fast! Search for qualified workers based on their location, skills, and qualifications, then message them directly.",
-    src: "/images/features/2-worker-search.jpg",
-    alt: "Dayworker worker search: a map of available workers across New York City",
-  },
-  {
-    tab: "Job Posts",
-    tag: "Contractors",
-    title: "Job posts & applicants",
-    body: "Post a job and set application requirements. Vet your applicants through the messenger, and give your stamp of approval when it works.",
-    src: "/images/features/3-job-posts.jpg",
-    alt: "A Dayworker job post for painters in Ridgewood, with pay, skills and an Apply button",
-  },
-  {
-    tab: "Dash",
-    tag: "Networking",
-    title: "Dashboard",
-    body: "Your command post for contacts, managing job postings or applications, and building your professional network.",
-    src: "/images/features/4-dash.jpg",
-    alt: "The Dayworker dashboard, showing a contractor's saved jobs",
-  },
-  {
-    tab: "Badges",
-    tag: "Workers",
-    title: "Achievement badges",
-    body: "Earn badges as you work and boost your profile. Big earners appear more reliable and professional to interested contractors.",
-    src: "/images/features/5-badges.jpg",
-    alt: "A worker's Dayworker profile with achievement badges and skills",
-  },
-  {
-    tab: "Messenger",
-    tag: "Networking",
-    title: "Live-translated messenger",
-    body: "Our private messenger is your link to professional success. Use it for networking and at the job site for communication in multiple spoken languages.",
-    src: "/images/features/6-messenger.jpg",
-    alt: "A conversation in the Dayworker messenger, setting up a job for the next morning",
-  },
+/** Screens, in order; their words (tab, tag, title, body, alt) are in siteCopy. */
+const SCREENS = [
+  "/images/features/1-job-search.jpg",
+  "/images/features/2-worker-search.jpg",
+  "/images/features/3-job-posts.jpg",
+  "/images/features/4-dash.jpg",
+  "/images/features/5-badges.jpg",
+  "/images/features/6-messenger.jpg",
 ];
 
 /** How long each screen holds while auto-playing. The active pill fills over the same time. */
@@ -116,6 +74,8 @@ const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)"
  * across the glass.
  */
 export default function Features() {
+  const t = useSiteCopy().features;
+  const FEATURES = t.items.map((f, i) => ({ ...f, src: SCREENS[i] }));
   const section = useRef<HTMLElement>(null);
   const body = useRef<HTMLDivElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
@@ -261,7 +221,7 @@ export default function Features() {
   };
 
   return (
-    <section id="features" ref={section} aria-label="Features" className="relative overflow-hidden bg-black text-white">
+    <section id="features" ref={section} aria-label={t.label} className="relative overflow-hidden bg-black text-white">
       {/* Carries the yellow of the section above down at an angle: full width,
           fixed 64px height, so the wedge shallows out as the viewport widens.
           The file carries preserveAspectRatio="none" — without it the artwork
@@ -352,7 +312,7 @@ export default function Features() {
               const on = i === slide.index;
               return (
                 <div
-                  key={f.tab}
+                  key={f.src}
                   role="tabpanel"
                   id={`feature-panel-${i}`}
                   aria-labelledby={`feature-tab-${i}`}
@@ -388,12 +348,12 @@ export default function Features() {
             })}
           </div>
 
-          <div role="tablist" aria-label="Features" onKeyDown={onKeys} className="mt-9 flex flex-wrap gap-2">
+          <div role="tablist" aria-label={t.label} onKeyDown={onKeys} className="mt-9 flex flex-wrap gap-2">
             {FEATURES.map((f, i) => {
               const on = i === slide.index;
               return (
                 <button
-                  key={f.tab}
+                  key={f.src}
                   ref={(el) => {
                     tabs.current[i] = el;
                   }}
@@ -446,7 +406,7 @@ export default function Features() {
                 }`}
               />
             </span>
-            Auto-play
+            {t.autoplay}
           </button>
         </Reveal>
       </div>

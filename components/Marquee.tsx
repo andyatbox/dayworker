@@ -1,4 +1,8 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
+import { tradeLabel } from "@/lib/copy";
+import { useLang } from "./Lang";
 
 /** Trade, and the DWIcon file that matches it. */
 const TRADES: [string, string][] = [
@@ -35,6 +39,7 @@ const TRADES: [string, string][] = [
  * Icons render as supplied, in full colour; don't filter them.
  */
 export default function Marquee() {
+  const { lang } = useLang();
   return (
     <div className="relative z-10 shrink-0 overflow-hidden border-y-[2px] border-black bg-white text-black">
       <div className="flex w-max animate-marquee">
@@ -54,7 +59,7 @@ export default function Marquee() {
                       its cell. Fixed height reserves two lines either way, which
                       keeps every icon on the same line across the ticker. */}
                   <span className="block h-[26px] max-w-[130px] text-center text-[10px] font-extrabold uppercase leading-tight tracking-[0.16em] md:h-[30px] md:max-w-[160px] md:text-xs md:tracking-[0.18em]">
-                    {label}
+                    {tradeLabel(label, lang)}
                   </span>
                 </div>
               </div>

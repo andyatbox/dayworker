@@ -9,6 +9,7 @@ import { CloseIcon } from "../Icons";
 import AppDownload from "../AppDownload";
 import SignupButton from "./SignupButton";
 import { SIGNUP_EVENT, qrOpen, useInvite } from "./invite";
+import { useLang } from "../Lang";
 import { track } from "./track-client";
 
 const SEEN = "dw_invite_seen";
@@ -25,6 +26,7 @@ const BTN = "w-full whitespace-nowrap max-sm:gap-2 max-sm:px-3 max-sm:text-[11px
  */
 export default function InviteModal() {
   const invite = useInvite();
+  const { lang } = useLang();
   const [open, setOpen] = useState(false);
 
   const close = useCallback((how: string) => {
@@ -71,7 +73,7 @@ export default function InviteModal() {
   }, [open, close]);
 
   if (!open || !invite) return null;
-  const t = copy[invite.lang];
+  const t = copy[lang];
 
   return createPortal(
     <div
@@ -111,8 +113,8 @@ export default function InviteModal() {
           </p>
 
           <div className="flex flex-col gap-3">
-            <AppDownload from="invite" lang={invite.lang} outlined className={BTN} />
-            <SignupButton from="invite" lang={invite.lang} outlined className={BTN} />
+            <AppDownload from="invite" lang={lang} outlined className={BTN} />
+            <SignupButton from="invite" lang={lang} outlined className={BTN} />
           </div>
           <button
             type="button"

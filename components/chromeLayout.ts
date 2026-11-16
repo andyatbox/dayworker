@@ -32,6 +32,10 @@ export const APP_BOX_H = 79;
 export const APP_BOX_H_SM = 58;
 export const SLAB_CLASS = "h-[58px] sm:h-[79px]";
 
+/** The EN/ES switch heading the column (h-8), and the gap under it (mb-2). */
+export const TOGGLE_H = 32;
+export const TOGGLE_GAP = 8;
+
 /** The account box, when SHOW_ACCOUNT_CTA is on. */
 export const ACCOUNT_BOX_H = 58;
 
@@ -64,14 +68,14 @@ export function slabH() {
 }
 
 /**
- * Height of the chrome stack: the app box and, on mouse devices, the sign-up
+ * Height of the chrome stack: the language switch, then the app box and, on mouse devices, the sign-up
  * box sharing a stroke, plus the account box when it shows. CHROME_CLASS
  * (.chrome-holder in globals.css) is the same sum in CSS, for the holder that
  * reserves the space in the hero.
  */
 export function chromeH() {
   const n = window.matchMedia("(pointer: coarse)").matches ? 1 : 2;
-  return slabH() * n - BORDER * (n - 1) + (SHOW_ACCOUNT_CTA ? ACCOUNT_BOX_H - BORDER : 0);
+  return TOGGLE_H + TOGGLE_GAP + slabH() * n - BORDER * (n - 1) + (SHOW_ACCOUNT_CTA ? ACCOUNT_BOX_H - BORDER : 0);
 }
 export const CHROME_CLASS = SHOW_ACCOUNT_CTA ? "chrome-holder with-account" : "chrome-holder";
 

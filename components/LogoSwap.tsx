@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { BORDER, PARK_TOP } from "./chromeLayout";
+import { useSiteCopy } from "./Lang";
 
 /**
  * The mark: a white, black-stroked box that loops between the round logo and
@@ -38,6 +39,7 @@ export default function LogoSwap() {
   const [mark, setMark] = useState(false);
   const [small, setSmall] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const t = useSiteCopy().hero;
 
   useEffect(() => setMounted(true), []);
 
@@ -94,7 +96,7 @@ export default function LogoSwap() {
     <a
       ref={box}
       href="#top"
-      aria-label="Dayworker home"
+      aria-label={t.home}
       className="intro fixed z-[60] block overflow-hidden border-[2px] border-black bg-white/70 backdrop-blur-md"
       style={{
         height,

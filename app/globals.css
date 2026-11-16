@@ -146,8 +146,9 @@
   border-color: #d11;
 }
 
-/* The holder that reserves the pinned chrome's space in the hero: one slab
-   per way in, sharing strokes. Touch devices only get the app slab. Keep in
+/* The holder that reserves the pinned chrome's space in the hero: the
+   language switch and its gap (40px), then one slab per way in, sharing
+   strokes. Touch devices only get the app slab. Keep in
    step with chromeH() and SLAB_CLASS. */
 :root {
   --slab-h: 58px;
@@ -164,10 +165,10 @@
   }
 }
 .chrome-holder {
-  height: calc(var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1));
+  height: calc(40px + var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1));
 }
 .chrome-holder.with-account {
-  height: calc(var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1) + 56px);
+  height: calc(40px + var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1) + 56px);
 }
 
 /* Landing intro: the hero's type and buttons wait out the first couple of

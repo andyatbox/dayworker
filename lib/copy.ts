@@ -1,8 +1,9 @@
 /**
  * Copy for the sign-up layer on dayworker.co: the personal invitation that
  * pops up for people arriving from an email, the sign-up panel, and its form.
- * English and Spanish; Spanish follows the contact's language. The site itself
- * stays as it is.
+ * English and Spanish, following the page's language (see components/Lang);
+ * an invitation link opens the page in the contact's language. The page's own
+ * sections are in siteCopy.ts.
  *
  * The Founding Member offer: connecting with workers is free until March of
  * 2027, then a monthly subscription; Founding Members get 3 extra free months.
@@ -69,6 +70,8 @@ export const copy = {
       signupShort: "Sign up",
       qr: "Scan to download the app and sign up on your phone",
       close: "Close",
+      dialog: "Download the Dayworker app",
+      qrAlt: "QR code linking to the Dayworker app",
     },
     form: {
       roleLabel: "I am a…",
@@ -156,6 +159,8 @@ export const copy = {
       signupShort: "Regístrese",
       qr: "Escanee para descargar la app y registrarse en su celular",
       close: "Cerrar",
+      dialog: "Descargar la app de Dayworker",
+      qrAlt: "Código QR que lleva a la app de Dayworker",
     },
     form: {
       roleLabel: "Soy…",

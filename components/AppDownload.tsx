@@ -110,7 +110,7 @@ export default function AppDownload({ big, outlined, className, from, lang = "en
           className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 p-5"
           role="dialog"
           aria-modal="true"
-          aria-label="Download the Dayworker app"
+          aria-label={t.dialog}
           data-layer="qr"
           data-lenis-prevent
           onClick={close}
@@ -130,7 +130,7 @@ export default function AppDownload({ big, outlined, className, from, lang = "en
 
             <img
               src={qr}
-              alt="QR code linking to the Dayworker app"
+              alt={t.qrAlt}
               className="w-[230px] max-w-full"
             />
 

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { lenisRef } from "./SmoothScroll";
 import { CloseIcon } from "./Icons";
+import { useSiteCopy } from "./Lang";
 
 /**
  * Same-origin paths, not absolute URLs. These pages ship with the site now, so
@@ -11,8 +12,8 @@ import { CloseIcon } from "./Icons";
  * a page already sitting on the current origin.
  */
 const DOCS = {
-  terms: { label: "Terms", url: "/terms" },
-  privacy: { label: "Privacy", url: "/privacy" },
+  terms: { url: "/terms" },
+  privacy: { url: "/privacy" },
 } as const;
 
 type DocKey = keyof typeof DOCS;
@@ -20,6 +21,8 @@ type DocKey = keyof typeof DOCS;
 /** Terms / Privacy, opened in an overlay rather than navigating away. */
 export default function LegalLinks() {
   const [doc, setDoc] = useState<DocKey | null>(null);
+  const t = useSiteCopy().footer;
+  const label = (k: DocKey) => t[k];
 
   const close = useCallback(() => {
     setDoc(null);
@@ -50,7 +53,7 @@ export default function LegalLinks() {
             onClick={() => open(k)}
             className="underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
           >
-            {DOCS[k].label}
+            {label(k)}
           </button>
         </span>
       ))}
@@ -60,7 +63,7 @@ export default function LegalLinks() {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-10"
           role="dialog"
           aria-modal="true"
-          aria-label={DOCS[doc].label}
+          aria-label={label(doc)}
           data-lenis-prevent
           onClick={close}
         >
@@ -70,19 +73,19 @@ export default function LegalLinks() {
           >
             <div className="flex shrink-0 items-center justify-between border-b-[3px] border-black bg-yellow px-5 py-4">
               <h2 className="text-sm font-extrabold uppercase tracking-[0.3em] text-black">
-                {DOCS[doc].label}
+                {label(doc)}
               </h2>
               <button
                 type="button"
                 onClick={close}
-                aria-label={`Close ${DOCS[doc].label}`}
+                aria-label={`${t.close}: ${label(doc)}`}
                 className="flex h-9 w-9 items-center justify-center bg-black text-yellow transition-colors duration-100 ease-linear hover:bg-white hover:text-black"
               >
                 <CloseIcon className="h-4 w-4" />
               </button>
             </div>
             <iframe
-              title={DOCS[doc].label}
+              title={label(doc)}
               src={DOCS[doc].url}
               className="h-full w-full grow border-none bg-white"
             />

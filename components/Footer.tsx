@@ -1,4 +1,7 @@
+"use client";
+
 import LegalLinks from "./LegalLinks";
+import { useSiteCopy } from "./Lang";
 import { InstagramIcon, FacebookIcon, LinkedInIcon } from "./Icons";
 
 const SOCIALS = [
@@ -12,11 +15,12 @@ const SOCIALS = [
 ];
 
 export default function Footer() {
+  const t = useSiteCopy().footer;
   return (
     <footer className="bg-black px-5 pb-14 pt-28 text-white md:px-10 md:pt-36">
       <div className="text-lg md:text-xl">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-5">
-          <span>Join us on the socials at</span>
+          <span>{t.socials}</span>
           <span className="flex items-center gap-3">
           {SOCIALS.map(({ label, href, Icon }) => (
               <a
@@ -33,7 +37,7 @@ export default function Footer() {
           </span>
         </div>
         <p className="mt-5">
-          Contact us at{" "}
+          {t.contact}{" "}
           <a
             href="mailto:info@dayworker.co"
             className="underline decoration-yellow decoration-2 underline-offset-4 transition-colors duration-100 ease-linear hover:bg-yellow hover:text-black"
@@ -45,11 +49,10 @@ export default function Footer() {
 
       <div className="mt-20 border-t-[3px] border-yellow pt-8">
         <p className="max-w-[70ch] text-sm leading-relaxed">
-          †Connecting with workers is free for a limited time. As of March of
-          2027, messaging workers will require a monthly subscription.
+          {t.dagger}
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-x-2 text-sm leading-relaxed">
-          <span>© 2026 Dayworker, Inc. All Rights Reserved.</span>
+          <span>{t.rights}</span>
           <LegalLinks />
         </div>
       </div>

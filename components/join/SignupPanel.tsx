@@ -7,6 +7,7 @@ import { lenisRef } from "../SmoothScroll";
 import { CloseIcon } from "../Icons";
 import JoinForm, { type Role } from "./JoinForm";
 import { SIGNUP_EVENT, qrOpen, useInvite } from "./invite";
+import { useLang } from "../Lang";
 import { track } from "./track-client";
 
 /**
@@ -20,6 +21,7 @@ import { track } from "./track-client";
  */
 export default function SignupPanel() {
   const invite = useInvite();
+  const { lang } = useLang();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
@@ -61,7 +63,6 @@ export default function SignupPanel() {
   }, [open, close]);
 
   if (!mounted) return null;
-  const lang = invite?.lang ?? "en";
   const t = copy[lang];
   const role = picked ?? invite?.role ?? "contractor";
 

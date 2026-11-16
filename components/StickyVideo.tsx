@@ -7,6 +7,7 @@ import { PlayIcon } from "./Icons";
 import Collapse from "./Collapse";
 import { SLAB_CLASS, parkedStore, videoRestTop } from "./chromeLayout";
 import { useParked } from "./useParked";
+import { useSiteCopy } from "./Lang";
 
 /**
  * The hero's video CTA. It starts down beside the tagline and rides up with the
@@ -23,6 +24,7 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
   const holder = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const parked = useParked();
+  const t = useSiteCopy().hero;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -61,8 +63,9 @@ export default function StickyVideo({ onClick }: { onClick: () => void }) {
       >
         <PlayIcon className="h-[1.1em] w-[1.1em]" />
         <span className="whitespace-nowrap">
-          <Collapse hide={parked}>Dayworker&nbsp;</Collapse>
-          Video
+          {t.videoLead && <Collapse hide={parked}>{t.videoLead}</Collapse>}
+          {t.video}
+          {t.videoTail && <Collapse hide={parked}>{t.videoTail}</Collapse>}
         </span>
       </Btn>
     </div>

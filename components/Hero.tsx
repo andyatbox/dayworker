@@ -8,6 +8,8 @@ import StickyChrome from "./StickyChrome";
 import StickyVideo from "./StickyVideo";
 import Marquee from "./Marquee";
 import { TOP_INSET, parkedStore } from "./chromeLayout";
+import { useLang } from "./Lang";
+import { siteCopy } from "@/lib/siteCopy";
 
 /** The film plays with controls in the overlay, hosted on Gumlet. */
 const FILM_ID = "6a8b4d8ccad008e012bd14d1";
@@ -42,14 +44,18 @@ const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.375rem)]";
 
 /**
  * The tagline takes one box on one line when it fits beside the video button,
- * and two stacked boxes otherwise. Measured rather than set by breakpoint, since
- * it depends on the display face's real width.
+ * and two stacked boxes otherwise — or, where even those lines are too long
+ * for the screen (Spanish on a phone), its narrower break. Each line is always
+ * a box of its own: a box left to wrap blurs a rectangle around both pieces.
+ * Measured rather than set by breakpoint, since it depends on the display
+ * face's real width.
  */
-function useOneLine() {
+function useOneLine(text: string) {
   const grid = useRef<HTMLDivElement>(null);
-  const measure = useRef<HTMLSpanElement>(null);
+  const measure = useRef<HTMLDivElement>(null);
   const slabW = useRef(290);
   const [oneLine, setOneLine] = useState(false);
+  const [narrow, setNarrow] = useState(false);
   // The h1's line box runs a few pixels below its last stroked box; the
   // tagline drops by that much so its box sits on the same bottom margin as
   // the video button, the same distance from the ticker as from the sides.
@@ -74,7 +80,11 @@ function useOneLine() {
       const cs = getComputedStyle(g);
       const inner = g.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       const side = window.matchMedia("(min-width: 768px)").matches;
-      setOneLine(side && m.getBoundingClientRect().width + parseFloat(cs.columnGap) + slabW.current <= inner);
+      // The unseen copies: the whole line, then each of the stacked lines.
+      const [whole, ...lines] = [...m.children].map((e) => e.getBoundingClientRect().width);
+      const room = side ? inner - parseFloat(cs.columnGap) - slabW.current : inner;
+      setOneLine(side && whole <= room);
+      setNarrow(Math.max(...lines) > room);
       const h1 = g.querySelector("h1");
       const boxes = h1 ? [...h1.querySelectorAll(".blocked")].flatMap((e) => [...e.getClientRects()]) : [];
       const last = boxes[boxes.length - 1];
@@ -92,13 +102,14 @@ function useOneLine() {
     };
   }, []);
 
-  // The h1 is swapped when the line count changes; measure the new one.
+  // The h1 is swapped when the line count or the language changes; measure
+  // the new one.
   useEffect(() => {
     const id = requestAnimationFrame(() => checkRef.current());
     return () => cancelAnimationFrame(id);
-  }, [oneLine]);
+  }, [oneLine, text]);
 
-  return { grid, measure, oneLine, lift };
+  return { grid, measure, oneLine, narrow, lift };
 }
 
 /**
@@ -111,7 +122,10 @@ function useOneLine() {
  */
 export default function Hero() {
   const [open, setOpen] = useState(false);
-  const { grid, measure, oneLine, lift } = useOneLine();
+  const { lang } = useLang();
+  const t = siteCopy[lang].hero;
+  const { grid, measure, oneLine, narrow, lift } = useOneLine(t.tagline);
+  const lines = narrow && t.narrowLines.length ? t.narrowLines : t.lines;
   const orientation = useOrientation();
   const montage = orientation && MONTAGE[orientation];
   const player = useRef<HTMLIFrameElement>(null);
@@ -213,19 +227,31 @@ export default function Hero() {
             <LogoSwap />
             {oneLine ? (
               <h1 className={`${TAGLINE} whitespace-nowrap`}>
-                <span className="blocked">The blue-collar pro network.</span>
+                <span className="blocked">{t.tagline}</span>
               </h1>
             ) : (
-              <h1 className={`${TAGLINE} max-w-[13ch]`}>
-                <span className="blocked">The blue-collar</span>
-                <br />
-                <span className="blocked">pro network.</span>
+              // Broken where the copy says, each line its own box.
+              <h1 className={`${TAGLINE} ${lang === "en" ? "max-w-[13ch]" : ""}`}>
+                {lines.map((l, i) => (
+                  <span key={l}>
+                    {i > 0 && <br />}
+                    <span className="blocked">{l}</span>
+                  </span>
+                ))}
               </h1>
             )}
           </div>
-          {/* The one-line tagline, unseen, to measure whether it fits. */}
-          <div aria-hidden="true" className={`${TAGLINE} pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap`}>
-            <span ref={measure} className="blocked">The blue-collar pro network.</span>
+          {/* The tagline's lines, unseen, to measure which break fits. */}
+          <div
+            ref={measure}
+            aria-hidden="true"
+            className={`${TAGLINE} pointer-events-none invisible absolute left-0 top-0 flex items-start whitespace-nowrap`}
+          >
+            {[t.tagline, ...t.lines].map((l) => (
+              <span key={l} className="blocked">
+                {l}
+              </span>
+            ))}
           </div>
 
           <StickyVideo onClick={show} />
@@ -239,7 +265,7 @@ export default function Hero() {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
           role="dialog"
           aria-modal="true"
-          aria-label="Dayworker video"
+          aria-label={t.videoDialog}
           data-lenis-prevent
           onClick={close}
         >
@@ -255,7 +281,7 @@ export default function Hero() {
                 honouring one if the other is ever dropped. */}
             <iframe
               ref={player}
-              title="Dayworker video"
+              title={t.videoDialog}
               src={`https://play.gumlet.io/embed/${FILM_ID}?autoplay=true&loop=false&disable_player_controls=false&captions=false&caption_language=off&start_high_res=true`}
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
               referrerPolicy="origin"
@@ -269,7 +295,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={close}
-            aria-label="Close video"
+            aria-label={t.closeVideo}
             className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center bg-yellow text-black transition-colors duration-100 ease-linear hover:bg-white md:right-4 md:top-4"
           >
             <CloseIcon className="h-5 w-5" />
