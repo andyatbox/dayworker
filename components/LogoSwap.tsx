@@ -95,7 +95,7 @@ export default function LogoSwap() {
       ref={box}
       href="#top"
       aria-label="Dayworker home"
-      className="fixed z-[60] block overflow-hidden border-[2px] border-black bg-white/70 backdrop-blur-md"
+      className="intro fixed z-[60] block overflow-hidden border-[2px] border-black bg-white/70 backdrop-blur-md"
       style={{
         height,
         width: small ? SM_NARROW : wide ? WIDE : NARROW,

@@ -169,3 +169,22 @@
 .chrome-holder.with-account {
   height: calc(var(--slab-h) * var(--slabs) - 2px * (var(--slabs) - 1) + 56px);
 }
+
+/* Landing intro: the hero's type and buttons wait out the first couple of
+   seconds of the montage, then fade in together. Hero sets data-intro on <html>
+   when it's time (at once if the page opens scrolled down). */
+.intro {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}
+html[data-intro] .intro {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (scripting: none) {
+  .intro {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

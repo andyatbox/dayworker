@@ -35,6 +35,9 @@ function useOrientation(): keyof typeof MONTAGE | null {
   );
 }
 
+/** How long the montage plays alone before the type and buttons fade in. */
+const INTRO_MS = 2000;
+
 const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.375rem)]";
 
 /**
@@ -142,6 +145,16 @@ export default function Hero() {
     lenisRef.current?.stop();
   }, []);
 
+  // The intro: everything on the montage fades in after a beat. Straight in
+  // if the page opens partway down, where there's no landing to stage.
+  useEffect(() => {
+    const el = document.documentElement;
+    const go = () => el.setAttribute("data-intro", "");
+    if (window.scrollY > 40) return go();
+    const t = setTimeout(go, INTRO_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -196,7 +209,7 @@ export default function Hero() {
           ref={grid}
           className="absolute inset-x-0 bottom-0 grid grid-cols-1 items-end gap-8 px-5 pb-5 md:grid-cols-[minmax(0,1fr)_auto] md:px-10 md:pb-10"
         >
-          <div style={{ marginBottom: -lift }}>
+          <div className="intro" style={{ marginBottom: -lift }}>
             <LogoSwap />
             {oneLine ? (
               <h1 className={`${TAGLINE} whitespace-nowrap`}>

@@ -57,7 +57,7 @@ export default function StickyChrome() {
   }, []);
 
   const chrome = (
-    <div ref={box} className="fixed z-[60] flex flex-col items-end">
+    <div ref={box} className="intro fixed z-[60] flex flex-col items-end">
       <div className={`${BOX} ${SLAB_CLASS}`}>
         <AppDownload from="chrome" short={parked} className={`${SM_BTN} max-sm:[&>svg]:hidden`} />
       </div>
