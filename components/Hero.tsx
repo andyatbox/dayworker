@@ -37,8 +37,9 @@ function useOrientation(): keyof typeof MONTAGE | null {
   );
 }
 
-/** How long the montage plays alone before the type and buttons fade in. */
-const INTRO_MS = 2000;
+/** The type and buttons fade in as the montage starts playing; if the player
+ *  never says so, they come in after this long regardless. */
+const INTRO_MAX_MS = 2500;
 
 const TAGLINE = "display tagline text-[clamp(2.6rem,6vw,4.375rem)]";
 
@@ -159,13 +160,42 @@ export default function Hero() {
     lenisRef.current?.stop();
   }, []);
 
-  // The intro: everything on the montage fades in after a beat. Straight in
+  // The montage stays hidden on the white until it's actually playing, so the
+  // player's black loading screen never shows; it opens on white, so it just
+  // appears. The player reports that over player.js: once it says it's ready,
+  // ask for its play and timeupdate events.
+  const [rolling, setRolling] = useState(false);
+  useEffect(() => {
+    const onMsg = (e: MessageEvent) => {
+      if (!e.origin.endsWith("gumlet.io") || typeof e.data !== "string") return;
+      let d: { context?: string; event?: string };
+      try {
+        d = JSON.parse(e.data);
+      } catch {
+        return;
+      }
+      if (d.context !== "player.js") return;
+      if (d.event === "ready") {
+        for (const value of ["play", "timeupdate"])
+          (e.source as Window | null)?.postMessage(
+            JSON.stringify({ context: "player.js", version: "0.0.11", method: "addEventListener", value }),
+            "*"
+          );
+      } else if (d.event === "play" || d.event === "timeupdate") {
+        setRolling(true);
+      }
+    };
+    window.addEventListener("message", onMsg);
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+
+  // The intro: everything on the montage fades in as it starts. Straight in
   // if the page opens partway down, where there's no landing to stage.
   useEffect(() => {
-    const el = document.documentElement;
-    const go = () => el.setAttribute("data-intro", "");
-    if (window.scrollY > 40) return go();
-    const t = setTimeout(go, INTRO_MS);
+    if (rolling || window.scrollY > 40) document.documentElement.setAttribute("data-intro", "");
+  }, [rolling]);
+  useEffect(() => {
+    const t = setTimeout(() => setRolling(true), INTRO_MAX_MS);
     return () => clearTimeout(t);
   }, []);
 
@@ -181,7 +211,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex h-[var(--app-vh,100svh)] min-h-[600px] flex-col overflow-hidden bg-black md:min-h-[660px]"
+      className="relative flex h-[var(--app-vh,100svh)] min-h-[600px] flex-col overflow-hidden bg-white md:min-h-[660px]"
     >
       <div className="relative min-h-0 flex-1">
         <div className="absolute inset-0 overflow-hidden [container-type:size]">
@@ -201,8 +231,9 @@ export default function Hero() {
               referrerPolicy="origin"
               aria-hidden="true"
               tabIndex={-1}
-              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none"
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-none bg-white"
               style={{
+                opacity: rolling ? 1 : 0,
                 width: `max(100cqw, calc(100cqh * ${montage.ratio}))`,
                 height: `max(100cqh, calc(100cqw / ${montage.ratio}))`,
               }}
